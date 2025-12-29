@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayPro Admin | Secure Access</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="background: #f0f2f5;">
+
+    <div id="authContainer" class="admin-container fade-in">
+        <div class="login-card fadeInUp">
+            <div class="logo" style="margin-bottom: 20px;">Stay<span>Pro</span> Admin</div>
+            <p style="color: #666; margin-bottom: 30px; font-weight: 600;">Founder Dashboard Login</p>
+
+            <div class="input-field">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="adminEmail" placeholder="Email Address">
+            </div>
+            <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="adminPass" placeholder="Password">
+            </div>
+
+            <button onclick="login()" class="btn-primary" style="width: 100%; margin-top: 10px;">
+                Secure Login
+            </button>
+        </div>
+    </div>
+
+    <div id="dashboardContainer" style="display: none !important;">
+        <nav class="navbar fadeInDown">
+            <div class="logo">Stay<span>Pro</span> Admin</div>
+            <button onclick="logout()" class="btn-secondary" style="border-color: var(--danger); color: var(--danger);">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </nav>
+
+        <div class="admin-container fadeInUp" style="margin-top: 30px;">
+            <div class="admin-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-plus-circle"></i> Add New Stay</h3>
+                    <div class="add-form">
+                        <input type="text" id="stayLoc" placeholder="Location (e.g., Beltola)">
+                        <input type="number" id="stayPrice" placeholder="Price (INR)">
+                        <input type="text" id="stayImg" placeholder="Google Drive Link">
+                        <button onclick="addStay()" class="btn-primary" style="width: 100%;">Post Listing</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-chart-line"></i> Business Overview</h3>
+                    <div class="stats-box">
+                        <div class="stat-item">
+                            <span id="countStays">0</span>
+                            <p>Active Listings</p>
+                        </div>
+                        <div class="stat-item">
+                            <span id="countBookings">0</span>
+                            <p>Total Bookings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card" style="margin-top: 30px;">
+                <h3><i class="fas fa-home"></i> Manage Listings</h3>
+                <div id="adminStayList" class="admin-list-scroll"></div>
+            </div>
+
+            <div class="dashboard-card" style="margin-top: 30px;">
+                <h3><i class="fas fa-tasks"></i> Recent Bookings</h3>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Dates</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYh8ffNvS1Chq9F_K2I49v1N_X429BxpM",
+            authDomain: "lowest-price-stay.firebaseapp.com",
+            projectId: "lowest-price-stay",
+            storageBucket: "lowest-price-stay.firebasestorage.app",
+            messagingSenderId: "674887550826",
+            appId: "1:674887550826:web:8a44c2c27b30d3e9808713"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // AUTH GATEKEEPER: Dashboard stays hidden unless user is verified
+        auth.onAuthStateChanged(user => {
+            const authDiv = document.getElementById('authContainer');
+            const dashDiv = document.getElementById('dashboardContainer');
+            if (user) {
+                authDiv.style.display = 'none';
+                dashDiv.setAttribute("style", "display: block !important");
+                initDashboard();
+            } else {
+                authDiv.style.display = 'flex';
+                dashDiv.setAttribute("style", "display: none !important");
+            }
+        });
+
+        async function login() {
+            const email = document.getElementById('adminEmail').value;
+            const pass = document.getElementById('adminPass').value;
+            try { await auth.signInWithEmailAndPassword(email, pass); } 
+            catch (e) { alert("Login Failed: " + e.message); }
+        }
+
+        async function addStay() {
+            const loc = document.getElementById('stayLoc').value;
+            const prc = document.getElementById('stayPrice').value;
+            const img = document.getElementById('stayImg').value;
+            if(!loc || !prc) return alert("Please fill location and price");
+            await db.collection('listed_stays').add({
+                location: loc, price: prc, imageLink: img,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            alert("Stay added!");
+            document.getElementById('stayLoc').value = ''; 
+            document.getElementById('stayPrice').value = ''; 
+            document.getElementById('stayImg').value = '';
+        }
+
+        function initDashboard() {
+            db.collection('listed_stays').onSnapshot(snap => {
+                const list = document.getElementById('adminStayList');
+                document.getElementById('countStays').innerText = snap.size;
+                list.innerHTML = '';
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    list.innerHTML += `<div class="admin-item"><span>${data.location} (Rs.${data.price})</span><button onclick="deleteDoc('listed_stays','${doc.id}')" class="btn-danger-sm">Delete</button></div>`;
+                });
+            });
+            db.collection('bookings').orderBy('timestamp', 'desc').onSnapshot(snap => {
+                const tbody = document.getElementById('bookingTableBody');
+                document.getElementById('countBookings').innerText = snap.size;
+                tbody.innerHTML = '';
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    tbody.innerHTML += `<tr><td>${d.name}</td><td>${d.location}</td><td>${d.fromDate} - ${d.toDate}</td></tr>`;
+                });
+            });
+        }
+        async function deleteDoc(col, id) { if(confirm("Confirm Delete?")) await db.collection(col).doc(id).delete(); }
+        function logout() { auth.signOut(); }
+    </script>
+
+    <style>
+        #authContainer { height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .input-field { display: flex; align-items: center; background: #f8f9fa; border: 1px solid #ddd; padding: 0 15px; border-radius: 12px; margin-bottom: 15px; }
+        .input-field i { color: var(--primary); }
+        .input-field input { border: none; background: transparent; padding: 15px; width: 100%; outline: none; font-weight: 600; }
+        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .dashboard-card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .dashboard-card h3 { margin-bottom: 20px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .stats-box { display: flex; justify-content: space-around; text-align: center; }
+        .stat-item span { font-size: 2rem; font-weight: 800; color: var(--dark); }
+        .admin-list-scroll { max-height: 250px; overflow-y: auto; }
+        .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .btn-danger-sm { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; font-size: 12px; color: #666; }
+        td { padding: 12px; border-top: 1px solid #eee; font-size: 14px; font-weight: 500; }
+    </style>
+</body>
+</html>

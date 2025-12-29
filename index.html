@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayPro | Premium Stay Experience</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar fadeInDown">
+        <div class="logo">Stay<span>Pro</span></div>
+        <a href="admin.html" class="admin-link">Admin Dashboard</a>
+    </nav>
+
+    <section class="hero fade-in">
+        <div class="hero-content fadeInUp">
+            <h1>Stay with two times food at lowest price</h1>
+            <p class="price-tag">Starting from <span>Rs. 499</span> / night</p>
+            <a href="#explore-section" class="btn-primary pulse">Explore Stays</a>
+        </div>
+    </section>
+
+    <section id="explore-section" class="explore-container">
+        <h2 class="section-title">Available Stays</h2>
+
+        <div class="search-wrapper fadeInUp">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by location..." autocomplete="off">
+                <button id="searchBtn" onclick="filterStays()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="stayGrid" class="stay-grid">
+            </div>
+    </section>
+
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Complete Your Booking</h2>
+            <form id="bookingForm">
+                <input type="hidden" id="selectedLocation">
+                <input type="text" id="userName" placeholder="Full Name" required>
+                <select id="userGender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <div class="input-group">
+                    <div class="date-input">
+                        <label>From Date</label>
+                        <input type="date" id="dateFrom" required>
+                    </div>
+                    <div class="date-input">
+                        <label>To Date</label>
+                        <input type="date" id="dateTo" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Confirm via WhatsApp</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
