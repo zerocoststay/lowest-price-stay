@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minstay | Premium Long-Term PGs</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar fadeInDown">
+        <a href="index.html" class="logo" style="text-decoration:none;">
+            <img src="https://lh3.googleusercontent.com/u/0/d/12VhJBma968JAbZ2YQ_zxMnDjTfi1Oj9e" alt="ZeroCostStay Logo" style="height: 45px; width: auto; vertical-align: middle; display: block;">
+        </a>
+        <a href="admin.html" class="admin-link">Admin Dashboard</a>
+    </nav>
+
+    <section class="hero fade-in">
+        <div class="hero-content fadeInUp">
+            <h1>Premium PGs for Students & Professionals</h1>
+            <p class="price-tag">Monthly stays starting from <span>Rs. 4,499</span></p>
+            <a href="#explore-section" class="btn-primary pulse">View PG Options</a>
+        </div>
+    </section>
+
+    <section id="explore-section" class="explore-container">
+        <h2 class="section-title">Available PGs</h2>
+
+        <div class="search-wrapper fadeInUp">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by city or area..." autocomplete="off">
+                <button id="searchBtn" onclick="filterStays()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="stayGrid" class="stay-grid"></div>
+    </section>
+
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Inquiry for PG</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 20px;">Schedule a visit or confirm your seat</p>
+
+            <form id="bookingForm">
+                <input type="hidden" id="selectedLocation">
+                <input type="text" id="userName" placeholder="Full Name" required>
+
+                <select id="userGender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+
+                <div class="input-group">
+                    <div class="date-input">
+                        <label>Preferred Move-in</label>
+                        <input type="date" id="dateFrom" required>
+                    </div>
+                    <div class="date-input">
+                        <label>Expected Duration</label>
+                        <select id="stayDuration" required style="width: 100%; padding: 15px; margin: 12px 0; border: 2px solid #eee; border-radius: 12px; font-weight: 600;">
+                            <option value="3 Months">1 Months</option>
+                            <option value="6 Months">6 Months</option>
+                            <option value="11 Months">12 Months</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Send Inquiry on WhatsApp</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
