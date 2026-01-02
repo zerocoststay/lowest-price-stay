@@ -1,2 +1,2 @@
-# lowest-price-stay
+# minstay
 Budget stays booking website
