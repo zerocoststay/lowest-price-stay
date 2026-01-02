@@ -3,85 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayPro Admin | Secure Access</title>
+    <title>Minstay | Secure Founder Panel</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        #adminDashboard, #loginGate { display: none; }
+
+        /* Login Centering */
+        .login-container { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f0f2f5; }
+        .login-card { background: white; padding: 40px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+
+        /* Stacked Layout Styling */
+        .admin-content-wrap { max-width: 900px; margin: 40px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 40px; }
+        .admin-card { background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; }
+
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f8f9fa; padding-bottom: 15px; }
+        .section-header h3 { font-size: 1.5rem; font-weight: 800; color: var(--dark); }
+
+        /* Property Add Logic UI */
+        .type-selector { background: #f8f9fa; padding: 25px; border-radius: 18px; margin: 20px 0; border: 1px solid #eee; }
+        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; cursor: pointer; font-weight: 700; }
+        .check-item input { width: 20px; height: 20px; accent-color: var(--primary); }
+
+        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .price-section { display: none; animation: fadeInUp 0.4s ease; }
+        .price-section.active { display: block; }
+
+        /* Inquiry Table Styling */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { text-align: left; color: #9aa0a6; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; padding: 15px; }
+        td { padding: 15px; border-top: 1px solid #f8f9fa; vertical-align: middle; }
+        .inquiry-tag { padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+        .tag-pg { background: #e8f0fe; color: #1a73e8; }
+        .tag-short { background: #e6f7ef; color: #25d366; }
+
+        /* New Property List Styling */
+        .tab-btn-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { padding: 10px 20px; border-radius: 50px; border: 1px solid #eee; background: #fff; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .property-list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; }
+        .btn-delete { color: var(--danger); background: none; border: none; font-weight: 700; cursor: pointer; }
+
+        .btn-logout { background: #fee2e2; color: #dc2626; padding: 10px 20px; border-radius: 50px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-logout:hover { background: #fecaca; transform: scale(1.05); }
+
+        @media (max-width: 600px) { .price-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
-<body style="background: #f0f2f5;">
+<body>
 
-    <div id="authContainer" class="admin-container fade-in">
-        <div class="login-card fadeInUp">
-            <div class="logo" style="margin-bottom: 20px;">Stay<span>Pro</span> Admin</div>
-            <p style="color: #666; margin-bottom: 30px; font-weight: 600;">Founder Dashboard Login</p>
-
-            <div class="input-field">
-                <i class="fas fa-envelope"></i>
-                <input type="email" id="adminEmail" placeholder="Email Address">
-            </div>
-            <div class="input-field">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="adminPass" placeholder="Password">
-            </div>
-
-            <button onclick="login()" class="btn-primary" style="width: 100%; margin-top: 10px;">
-                Secure Login
-            </button>
+    <div id="loginGate" class="login-container">
+        <div class="login-card scale-in">
+            <h2 style="margin-bottom: 10px;">Founder Portal</h2>
+            <p style="color: #666; margin-bottom: 30px;">Minstay Management Access</p>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Registered Email" required>
+                <input type="password" id="loginPass" placeholder="Security Password" required>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Verify & Enter</button>
+            </form>
         </div>
     </div>
 
-    <div id="dashboardContainer" style="display: none !important;">
-        <nav class="navbar fadeInDown">
-            <div class="logo">Stay<span>Pro</span> Admin</div>
-            <button onclick="logout()" class="btn-secondary" style="border-color: var(--danger); color: var(--danger);">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
+    <div id="adminDashboard">
+        <nav class="navbar">
+            <a href="index.html" class="logo"><span>Minstay</span> </a>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button class="btn-logout" onclick="handleLogout()">Logout</button>
+            </div>
         </nav>
 
-        <div class="admin-container fadeInUp" style="margin-top: 30px;">
-            <div class="admin-grid">
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-plus-circle"></i> Add New Stay</h3>
-                    <div class="add-form">
-                        <input type="text" id="stayLoc" placeholder="Location (e.g., Beltola)">
-                        <input type="number" id="stayPrice" placeholder="Price (INR)">
-                        <input type="text" id="stayImg" placeholder="Google Drive Link">
-                        <button onclick="addStay()" class="btn-primary" style="width: 100%;">Post Listing</button>
-                    </div>
+        <div class="admin-content-wrap">
+            <div class="admin-card fadeInUp">
+                <div class="section-header">
+                    <h3>List New Property</h3>
                 </div>
+                <form id="addStayForm">
+                    <label>Property Name / Exact Location</label>
+                    <input type="text" id="stayLocation" placeholder="e.g. Near IIT Guwahati, North Amingaon" required>
 
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-chart-line"></i> Business Overview</h3>
-                    <div class="stats-box">
-                        <div class="stat-item">
-                            <span id="countStays">0</span>
-                            <p>Active Listings</p>
-                        </div>
-                        <div class="stat-item">
-                            <span id="countBookings">0</span>
-                            <p>Total Bookings</p>
+                    <div class="type-selector">
+                        <p style="font-size: 14px; margin-bottom: 15px; color: #555;">Which services are available here?</p>
+                        <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+                            <label class="check-item">
+                                <input type="checkbox" id="checkShort" onchange="toggleInputs()"> Short Term Stay
+                            </label>
+                            <label class="check-item">
+                                <input type="checkbox" id="checkPG" onchange="toggleInputs()"> Long Term PG
+                            </label>
                         </div>
                     </div>
+
+                    <div class="price-grid">
+                        <div id="shortPriceSection" class="price-section">
+                            <label style="font-size: 13px; font-weight: 700;">Nightly Price (Rs.)</label>
+                            <input type="number" id="shortPrice" placeholder="Price per night">
+                        </div>
+                        <div id="pgPriceSection" class="price-section">
+                            <label style="font-size: 13px; font-weight: 700;">Monthly Rent (Rs.)</label>
+                            <input type="number" id="pgPrice" placeholder="Price per month">
+                        </div>
+                    </div>
+
+                    <label style="margin-top: 20px; display: block;">Image Link (Drive/Direct Link)</label>
+                    <input type="text" id="stayImage" placeholder="Paste property image URL" required>
+                    <button type="submit" class="btn-submit" style="background: var(--primary); margin-top: 25px; height: 60px;">Publish to Platform</button>
+                </form>
+            </div>
+
+            <div class="admin-card fadeInUp" style="animation-delay: 0.1s;">
+                <div class="section-header">
+                    <h3>Manage Listed Properties</h3>
                 </div>
+                <div class="tab-btn-group">
+                    <button id="tabBtnShort" class="tab-btn active" onclick="switchPropTab('short')">Short Stays</button>
+                    <button id="tabBtnPG" class="tab-btn" onclick="switchPropTab('pg')">Long Term PGs</button>
+                </div>
+                <div id="propertyListContainer">
+                    </div>
             </div>
 
-            <div class="dashboard-card" style="margin-top: 30px;">
-                <h3><i class="fas fa-home"></i> Manage Listings</h3>
-                <div id="adminStayList" class="admin-list-scroll"></div>
-            </div>
-
-            <div class="dashboard-card" style="margin-top: 30px;">
-                <h3><i class="fas fa-tasks"></i> Recent Bookings</h3>
-                <div style="overflow-x: auto;">
+            <div class="admin-card fadeInUp" style="animation-delay: 0.2s;">
+                <div class="section-header">
+                    <h3>Customer Inquiries</h3>
+                </div>
+                <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>Customer Details</th>
                                 <th>Location</th>
-                                <th>Dates</th>
+                                <th>Stay Type</th>
+                                <th>Check-in</th>
                             </tr>
                         </thead>
-                        <tbody id="bookingTableBody"></tbody>
+                        <tbody id="bookingsList"></tbody>
                     </table>
                 </div>
             </div>
@@ -101,88 +157,122 @@
             messagingSenderId: "674887550826",
             appId: "1:674887550826:web:8a44c2c27b30d3e9808713"
         };
-
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // AUTH GATEKEEPER: Dashboard stays hidden unless user is verified
+        // PERSISTENCE & SESSION
+        auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+
         auth.onAuthStateChanged(user => {
-            const authDiv = document.getElementById('authContainer');
-            const dashDiv = document.getElementById('dashboardContainer');
             if (user) {
-                authDiv.style.display = 'none';
-                dashDiv.setAttribute("style", "display: block !important");
-                initDashboard();
+                document.getElementById('loginGate').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                loadBookings();
+                loadProperties('short'); 
             } else {
-                authDiv.style.display = 'flex';
-                dashDiv.setAttribute("style", "display: none !important");
+                document.getElementById('loginGate').style.display = 'flex';
+                document.getElementById('adminDashboard').style.display = 'none';
             }
         });
 
-        async function login() {
-            const email = document.getElementById('adminEmail').value;
-            const pass = document.getElementById('adminPass').value;
-            try { await auth.signInWithEmailAndPassword(email, pass); } 
-            catch (e) { alert("Login Failed: " + e.message); }
+        // AUTO-LOGOUT
+        window.addEventListener('pagehide', () => { auth.signOut(); });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+            auth.signInWithEmailAndPassword(email, pass).catch(err => alert("Unauthorized: " + err.message));
+        });
+
+        function handleLogout() { auth.signOut(); }
+
+        function toggleInputs() {
+            document.getElementById('shortPriceSection').classList.toggle('active', document.getElementById('checkShort').checked);
+            document.getElementById('pgPriceSection').classList.toggle('active', document.getElementById('checkPG').checked);
         }
 
-        async function addStay() {
-            const loc = document.getElementById('stayLoc').value;
-            const prc = document.getElementById('stayPrice').value;
-            const img = document.getElementById('stayImg').value;
-            if(!loc || !prc) return alert("Please fill location and price");
-            await db.collection('listed_stays').add({
-                location: loc, price: prc, imageLink: img,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        // MANAGEMENT TABS LOGIC
+        let currentPropType = 'short';
+        function switchPropTab(type) {
+            currentPropType = type;
+            document.getElementById('tabBtnShort').classList.toggle('active', type === 'short');
+            document.getElementById('tabBtnPG').classList.toggle('active', type === 'pg');
+            loadProperties(type);
+        }
+
+        function loadProperties(type) {
+            const container = document.getElementById('propertyListContainer');
+            const fieldToCheck = type === 'short' ? 'isShortStay' : 'isPG';
+
+            db.collection('listed_stays').where(fieldToCheck, '==', true).onSnapshot(snap => {
+                container.innerHTML = '';
+                if(snap.empty) container.innerHTML = '<p style="color:#888;">No properties listed here yet.</p>';
+                snap.forEach(doc => {
+                    const p = doc.data();
+                    const price = type === 'short' ? p.shortPrice : p.pgPrice;
+                    container.innerHTML += `
+                        <div class="property-list-item">
+                            <div>
+                                <strong style="display:block;">${p.location}</strong>
+                                <small style="color:var(--primary);">Rs. ${price} / ${type === 'short' ? 'night' : 'month'}</small>
+                            </div>
+                            <button class="btn-delete" onclick="deleteProperty('${doc.id}')">Delete</button>
+                        </div>`;
+                });
             });
-            alert("Stay added!");
-            document.getElementById('stayLoc').value = ''; 
-            document.getElementById('stayPrice').value = ''; 
-            document.getElementById('stayImg').value = '';
         }
 
-        function initDashboard() {
-            db.collection('listed_stays').onSnapshot(snap => {
-                const list = document.getElementById('adminStayList');
-                document.getElementById('countStays').innerText = snap.size;
+        async function deleteProperty(id) {
+            if(confirm("Confirm removal of this property?")) {
+                await db.collection('listed_stays').doc(id).delete();
+                alert("Property Deleted.");
+            }
+        }
+
+        // ADD PROPERTY LOGIC
+        document.getElementById('addStayForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const isShort = document.getElementById('checkShort').checked;
+            const isPG = document.getElementById('checkPG').checked;
+            if(!isShort && !isPG) return alert("Select at least one category!");
+
+            try {
+                // Ensure imageLink field matches script.js reader
+                await db.collection('listed_stays').add({
+                    location: document.getElementById('stayLocation').value,
+                    imageLink: document.getElementById('stayImage').value,
+                    isShortStay: isShort,
+                    isPG: isPG,
+                    shortPrice: isShort ? document.getElementById('shortPrice').value : null,
+                    pgPrice: isPG ? document.getElementById('pgPrice').value : null,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert("Property is now Live!");
+                document.getElementById('addStayForm').reset();
+                toggleInputs();
+            } catch (err) { alert(err.message); }
+        });
+
+        // INQUIRIES LOAD
+        function loadBookings() {
+            db.collection('bookings').orderBy('timestamp', 'desc').onSnapshot(snap => {
+                const list = document.getElementById('bookingsList');
                 list.innerHTML = '';
                 snap.forEach(doc => {
-                    const data = doc.data();
-                    list.innerHTML += `<div class="admin-item"><span>${data.location} (Rs.${data.price})</span><button onclick="deleteDoc('listed_stays','${doc.id}')" class="btn-danger-sm">Delete</button></div>`;
-                });
-            });
-            db.collection('bookings').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                const tbody = document.getElementById('bookingTableBody');
-                document.getElementById('countBookings').innerText = snap.size;
-                tbody.innerHTML = '';
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    tbody.innerHTML += `<tr><td>${d.name}</td><td>${d.location}</td><td>${d.fromDate} - ${d.toDate}</td></tr>`;
+                    const b = doc.data();
+                    const tagClass = b.type === 'PG' ? 'tag-pg' : 'tag-short';
+                    list.innerHTML += `
+                        <tr>
+                            <td><div style="font-weight:800;">${b.name}</div><div style="font-size:12px; color:#888;">${b.gender}</div></td>
+                            <td>${b.location}</td>
+                            <td><span class="inquiry-tag ${tagClass}">${b.type}</span></td>
+                            <td style="font-weight:600; font-size:13px;">${b.fromDate}</td>
+                        </tr>`;
                 });
             });
         }
-        async function deleteDoc(col, id) { if(confirm("Confirm Delete?")) await db.collection(col).doc(id).delete(); }
-        function logout() { auth.signOut(); }
     </script>
-
-    <style>
-        #authContainer { height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
-        .input-field { display: flex; align-items: center; background: #f8f9fa; border: 1px solid #ddd; padding: 0 15px; border-radius: 12px; margin-bottom: 15px; }
-        .input-field i { color: var(--primary); }
-        .input-field input { border: none; background: transparent; padding: 15px; width: 100%; outline: none; font-weight: 600; }
-        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .dashboard-card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .dashboard-card h3 { margin-bottom: 20px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
-        .stats-box { display: flex; justify-content: space-around; text-align: center; }
-        .stat-item span { font-size: 2rem; font-weight: 800; color: var(--dark); }
-        .admin-list-scroll { max-height: 250px; overflow-y: auto; }
-        .admin-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
-        .btn-danger-sm { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #f8f9fa; padding: 12px; text-align: left; font-size: 12px; color: #666; }
-        td { padding: 12px; border-top: 1px solid #eee; font-size: 14px; font-weight: 500; }
-    </style>
 </body>
 </html>
