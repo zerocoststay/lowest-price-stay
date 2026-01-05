@@ -144,7 +144,7 @@ if (bookingForm) {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            const phone = "+918011595012";
+            const phone = "+919395346545";
             // FIXED: Added 'secondaryVal' to the message with appropriate label
             const detailLabel = isPGPage ? "Duration" : "To Date";
             const message = `*Inquiry: ${isPGPage ? "PG" : "Short Stay"}*%0ALocation: ${location}%0AName: ${name}%0AGender: ${gender}%0AFrom: ${fromDate}%0A${detailLabel}: ${secondaryVal}`;
