@@ -7,6 +7,60 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* --- NEW LIVE BACKGROUND CSS START --- */
+        body {
+            margin: 0;
+            /* Light AliceBlue base to blend with the animation */
+            background-color: #f0f8ff; 
+            /* Prevent horizontal scroll from animation overflow */
+            overflow-x: hidden; 
+            position: relative;
+        }
+
+        /* Moving Blue Orb */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -10%;
+            left: -10%;
+            width: 70vw;
+            height: 70vw;
+            background: radial-gradient(circle, rgba(135, 206, 235, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            filter: blur(80px); /* Creates the misty/blurred effect */
+            z-index: -1; /* Sends it behind text */
+            animation: driftBlue 20s infinite alternate ease-in-out;
+            opacity: 0.7;
+        }
+
+        /* Moving White/Light Orb */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -10%;
+            right: -10%;
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(176, 224, 230, 0.4) 60%);
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            animation: driftWhite 25s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes driftBlue {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20vw, 10vh) scale(1.2); }
+            100% { transform: translate(10vw, -10vh) scale(0.9); }
+        }
+
+        @keyframes driftWhite {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-15vw, -15vh); }
+        }
+        /* --- NEW LIVE BACKGROUND CSS END --- */
+
+
         /* Ensuring the logo images are visible and sized correctly */
         .logo img {
             height: 45px; 
@@ -36,6 +90,9 @@
             display: flex;
             flex-direction: column;
             align-items: center; /* Forces all items into the middle column */
+            background: rgba(255, 255, 255, 0.6); /* Slight glass effect to make text readable over moving background */
+            backdrop-filter: blur(5px);
+            border-radius: 12px; /* Added slight rounding to match modern look */
         }
 
         .segment-box h2 {
