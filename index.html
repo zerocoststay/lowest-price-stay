@@ -20,7 +20,6 @@
             margin-bottom: 15px;
             display: block;
         }
-        
         /* Style for the new images inside the boxes */
         .segment-box img {
             width: 100%;
@@ -31,25 +30,25 @@
             display: block;
         }
 
-        /* --- UPDATED CSS FOR MID ALIGNMENT --- */
+        /* --- NEW ALIGNMENT CSS START --- */
+        /* This centers the content inside the boxes */
         .segment-box {
-            text-align: center; /* Centers the H2 and Button */
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Centers all flex items */
+            text-align: center; /* Centers the Heading, Image, and Button */
         }
 
+        .segment-box h2 {
+            margin-bottom: 10px;
+        }
+
+        /* This centers the list block, but keeps the text readable */
         .segment-box ul {
-            text-align: center; /* Centers the text inside the list */
-            list-style-position: inside; /* Brings bullets inside so they align with the centered text */
-            padding: 0; /* Removes default padding to ensure true centering */
-            width: 100%;
-            margin-bottom: 20px;
+            display: inline-block; /* Makes the list a block that can be centered */
+            text-align: left; /* Keeps the bullet points aligned with the text */
+            margin: 0 auto 20px auto; /* Centers the list block horizontally */
+            padding-left: 20px; /* Ensures space for bullets */
         }
-        
-        .segment-box li {
-            margin-bottom: 5px;
-        }
+        /* --- NEW ALIGNMENT CSS END --- */
+
     </style>
 </head>
 <body>
