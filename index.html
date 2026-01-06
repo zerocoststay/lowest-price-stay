@@ -158,6 +158,66 @@
         }
         /* --- END SEO CONTENT STYLING --- */
 
+        /* --- HERO VIDEO BACKGROUND CSS --- */
+        .zcs-hero {
+            position: relative;
+            /* Give it enough height to show the video nicely */
+            min-height: 80vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            /* Removing default padding if necessary to let video fill edge to edge */
+            padding: 20px; 
+            box-sizing: border-box;
+        }
+
+        .hero-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Darkens video so text pops */
+            z-index: 2;
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Modify text content to be centered and white */
+        .hero-text-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .hero-text-content h1 {
+            color: #ffffff; /* Override default black if any */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-text-content h1 span {
+            color: #87CEEB; /* Make the span 'and long term PG' pop, maybe light blue */
+        }
+        /* --- END HERO VIDEO BACKGROUND CSS --- */
+
     </style>
 </head>
 <body>
@@ -172,25 +232,30 @@
     </nav>
 
     <header class="zcs-hero scale-in">
+        <video autoplay muted loop playsinline class="hero-video-bg">
+            <source src="https://drive.google.com/uc?export=download&id=18-3qWEUm3daCpN_c77H98YDWGwok3cT1" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="hero-overlay"></div>
+
         <div class="hero-container">
             <div class="hero-text-content fadeInUp">
                 <h1>Lowest cost stay<br><span>and long term PG</span></h1>
 
                 <p style="margin-top: 18px; margin-bottom: 25px;">
-                    <span style="background: rgba(37, 211, 102, 0.1); color: var(--primary); padding: 8px 16px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; border: 1px solid var(--primary); display: inline-block; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); letter-spacing: 0.5px;">
+                    <span style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.3); display: inline-block; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); letter-spacing: 0.5px; backdrop-filter: blur(4px);">
                         If you are a budget traveller, job seeker or student, just forget about Hotel and Homestays
                     </span>
                 </p>
 
-                <div class="hero-btns">
+                <div class="hero-btns" style="justify-content: center; display: flex; gap: 15px;">
                     <a href="short-stay.html" class="btn-primary pulse">Short Stay Booking</a>
                     <a href="pg.html" class="btn-primary pulse">Long-Term PG Booking</a>
                 </div>
             </div>
-            <div class="hero-image-content fadeInDown">
-                <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1200&q=80" alt="Beautiful Modern Stay" class="hero-img-main">
+            
             </div>
-        </div>
     </header>
 
     <section class="trust-section">
