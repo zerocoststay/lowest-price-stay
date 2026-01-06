@@ -30,24 +30,40 @@
             display: block;
         }
 
-        /* --- NEW ALIGNMENT CSS START --- */
-        /* This centers the content inside the boxes */
+        /* --- UPDATED CSS FOR CENTER ALIGNMENT --- */
         .segment-box {
-            text-align: center; /* Centers the Heading, Image, and Button */
+            text-align: center; /* Centers Headings and Buttons */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Forces all items into the middle column */
         }
 
         .segment-box h2 {
             margin-bottom: 10px;
         }
 
-        /* This centers the list block, but keeps the text readable */
         .segment-box ul {
-            display: inline-block; /* Makes the list a block that can be centered */
-            text-align: left; /* Keeps the bullet points aligned with the text */
-            margin: 0 auto 20px auto; /* Centers the list block horizontally */
-            padding-left: 20px; /* Ensures space for bullets */
+            list-style: none; /* Removes default bullets */
+            padding: 0;
+            margin: 0 0 20px 0;
+            text-align: center; /* Centers the text inside the list items */
         }
-        /* --- NEW ALIGNMENT CSS END --- */
+
+        .segment-box li {
+            margin-bottom: 8px; /* Spacing between lines */
+            position: relative;
+            padding-left: 0; /* No padding needed if we remove bullets or center them */
+        }
+        
+        /* Optional: If you want a small dot in the center before the text, 
+           keep list-style:none and just center the text as above. 
+           If you strictly want the bullet point dot to appear next to the text while centered: */
+        .segment-box li:before {
+            content: "•";
+            color: var(--primary, #000); /* Uses your primary color or black */
+            margin-right: 8px;
+        }
+        /* --- END OF UPDATES --- */
 
     </style>
 </head>
