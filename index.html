@@ -24,23 +24,34 @@
         /* STYLE FOR THE IMAGES INSIDE THE BOXES */
         .segment-box img {
             width: 100%;
-            height: 200px; /* Fixed height for consistency */
+            height: 200px; 
             object-fit: cover; 
             border-radius: 8px; 
             margin-bottom: 15px; 
             display: block;
         }
 
-        /* NEW: ALIGNMENT FOR MID/CENTER JUSTIFIED BOXES */
+        /* --- UPDATED ALIGNMENT CSS --- */
+        
+        /* 1. Center everything inside the box */
         .segment-box {
-            text-align: center; /* Centers title, image, and button */
+            text-align: center; 
         }
 
+        /* 2. Specific fix for the Lists to be Center Aligned */
         .segment-box ul {
-            display: inline-block; /* Makes the list a block we can center */
-            text-align: left; /* Keeps the bullet points aligned left relative to each other */
-            margin: 0 auto 20px auto; /* Centers the list block horizontally */
-            padding-left: 20px; /* Adds space for the bullets */
+            text-align: center;       /* Centers the text inside the list */
+            list-style-position: inside; /* Brings bullets inside so they center with text */
+            padding: 0;               /* Removes default left padding */
+            margin: 0 0 20px 0;       /* Spacing below the list */
+        }
+
+        .segment-box li {
+            margin-bottom: 8px;       /* Space between list items */
+        }
+
+        .segment-box h2 {
+            margin-bottom: 15px;      /* Space between title and list */
         }
     </style>
 </head>
