@@ -7,17 +7,14 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- NEW LIVE BACKGROUND CSS START --- */
+        /* --- BACKGROUND ORBS (Existing) --- */
         body {
             margin: 0;
-            /* Light AliceBlue base to blend with the animation */
             background-color: #f0f8ff; 
-            /* Prevent horizontal scroll from animation overflow */
             overflow-x: hidden; 
             position: relative;
         }
 
-        /* Moving Blue Orb */
         body::before {
             content: '';
             position: fixed;
@@ -27,13 +24,12 @@
             height: 70vw;
             background: radial-gradient(circle, rgba(135, 206, 235, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
             border-radius: 50%;
-            filter: blur(80px); /* Creates the misty/blurred effect */
-            z-index: -1; /* Sends it behind text */
+            filter: blur(80px);
+            z-index: -1;
             animation: driftBlue 20s infinite alternate ease-in-out;
             opacity: 0.7;
         }
 
-        /* Moving White/Light Orb */
         body::after {
             content: '';
             position: fixed;
@@ -58,10 +54,8 @@
             0% { transform: translate(0, 0); }
             100% { transform: translate(-15vw, -15vh); }
         }
-        /* --- NEW LIVE BACKGROUND CSS END --- */
 
-
-        /* Ensuring the logo images are visible and sized correctly */
+        /* --- STANDARD ELEMENTS --- */
         .logo img {
             height: 45px; 
             width: auto;
@@ -74,53 +68,47 @@
             margin-bottom: 15px;
             display: block;
         }
-        /* Style for the new images inside the boxes */
         .segment-box img {
             width: 100%;
-            height: 200px; /* Fixed height for consistency */
-            object-fit: cover; /* Ensures image covers the box without stretching */
+            height: 200px;
+            object-fit: cover;
             border-radius: 8px; 
             margin-bottom: 15px; 
             display: block;
         }
 
-        /* --- CENTER ALIGNMENT CSS --- */
         .segment-box {
-            text-align: center; /* Centers Headings and Buttons */
+            text-align: center;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Forces all items into the middle column */
-            background: rgba(255, 255, 255, 0.6); /* Slight glass effect to make text readable over moving background */
+            align-items: center;
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(5px);
-            border-radius: 12px; /* Added slight rounding to match modern look */
+            border-radius: 12px;
         }
 
-        .segment-box h2 {
-            margin-bottom: 10px;
-        }
+        .segment-box h2 { margin-bottom: 10px; }
 
         .segment-box ul {
-            list-style: none; /* Removes default bullets */
+            list-style: none;
             padding: 0;
             margin: 0 0 20px 0;
-            text-align: center; /* Centers the text inside the list items */
+            text-align: center;
         }
 
         .segment-box li {
-            margin-bottom: 8px; /* Spacing between lines */
+            margin-bottom: 8px;
             position: relative;
             padding-left: 0; 
         }
         
-        /* Adds a custom centered dot before the text */
         .segment-box li:before {
             content: "•";
-            color: inherit; /* Matches text color */
+            color: inherit;
             margin-right: 8px;
         }
-        /* --- END OF ALIGNMENT CSS --- */
 
-        /* --- SEO CONTENT STYLING --- */
+        /* --- SEO SECTION --- */
         #minstay-seo-content {
             background-color: rgba(255, 255, 255, 0.8);
             padding: 40px 20px;
@@ -130,7 +118,6 @@
             color: #333;
         }
         
-        /* Container to keep text from getting too wide */
         #minstay-seo-content > * {
             max-width: 1000px;
             margin-left: auto;
@@ -156,28 +143,29 @@
             margin-bottom: 15px;
             color: #555;
         }
-        /* --- END SEO CONTENT STYLING --- */
 
-        /* --- HERO VIDEO BACKGROUND CSS --- */
+        /* --- VIDEO BACKGROUND HERO CSS --- */
         .zcs-hero {
             position: relative;
-            /* Give it enough height to show the video nicely */
-            min-height: 80vh; 
+            min-height: 100vh; /* Full screen height for impact */
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            /* Removing default padding if necessary to let video fill edge to edge */
             padding: 20px; 
             box-sizing: border-box;
+            background-color: #000; /* Fallback color */
         }
 
         .hero-video-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%); /* Centering trick */
             object-fit: cover;
             z-index: 1;
         }
@@ -188,7 +176,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6); /* Darkens video so text pops */
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay for readability */
             z-index: 2;
         }
 
@@ -200,24 +188,31 @@
             margin: 0 auto;
         }
 
-        /* Modify text content to be centered and white */
         .hero-text-content {
             text-align: center;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             color: white;
         }
 
         .hero-text-content h1 {
-            color: #ffffff; /* Override default black if any */
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            color: #ffffff;
+            font-size: 3.5rem; 
+            line-height: 1.2;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            margin-bottom: 10px;
         }
         
-        .hero-text-content h1 span {
-            color: #87CEEB; /* Make the span 'and long term PG' pop, maybe light blue */
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-text-content h1 {
+                font-size: 2.2rem;
+            }
         }
-        /* --- END HERO VIDEO BACKGROUND CSS --- */
 
+        .hero-text-content h1 span {
+            color: #87CEEB; /* Light Blue highlight */
+        }
     </style>
 </head>
 <body>
@@ -232,6 +227,7 @@
     </nav>
 
     <header class="zcs-hero scale-in">
+        
         <video autoplay muted loop playsinline class="hero-video-bg">
             <source src="https://drive.google.com/uc?export=download&id=18-3qWEUm3daCpN_c77H98YDWGwok3cT1" type="video/mp4">
             Your browser does not support the video tag.
@@ -243,19 +239,18 @@
             <div class="hero-text-content fadeInUp">
                 <h1>Lowest cost stay<br><span>and long term PG</span></h1>
 
-                <p style="margin-top: 18px; margin-bottom: 25px;">
-                    <span style="background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 10px 20px; border-radius: 50px; font-weight: 700; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.3); display: inline-block; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); letter-spacing: 0.5px; backdrop-filter: blur(4px);">
+                <p style="margin-top: 25px; margin-bottom: 35px;">
+                    <span style="background: rgba(255, 255, 255, 0.2); color: #ffffff; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 1rem; border: 1px solid rgba(255,255,255,0.4); display: inline-block; backdrop-filter: blur(8px); box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
                         If you are a budget traveller, job seeker or student, just forget about Hotel and Homestays
                     </span>
                 </p>
 
-                <div class="hero-btns" style="justify-content: center; display: flex; gap: 15px;">
+                <div class="hero-btns" style="justify-content: center; display: flex; gap: 20px; flex-wrap: wrap;">
                     <a href="short-stay.html" class="btn-primary pulse">Short Stay Booking</a>
                     <a href="pg.html" class="btn-primary pulse">Long-Term PG Booking</a>
                 </div>
             </div>
-            
-            </div>
+        </div>
     </header>
 
     <section class="trust-section">
@@ -283,7 +278,6 @@
         <div class="segment-container">
             <div class="segment-box short-stay-box fadeInUp">
                 <img src="https://lh3.googleusercontent.com/d/175JtV4R9Hf9sLvvozuxP8ze2MV9vV3N3" alt="Short Stay Offer - 3 Meals from Rs 499">
-
                 <h2>Short Stay</h2>
                 <ul>
                     <li>Daily / weekly stays</li>
@@ -296,7 +290,6 @@
 
             <div class="segment-box pg-box fadeInUp" style="animation-delay: 0.2s;">
                 <img src="https://lh3.googleusercontent.com/d/174EJkdzU5IprozHwqtGwrP2TWYREuSPm" alt="PG Stay Offer - No Brokerage">
-
                 <h2>Long-Term PG</h2>
                 <ul>
                     <li>Monthly rent options</li>
@@ -338,53 +331,24 @@
 
     <section id="minstay-seo-content">
         <h2>Minstay – India’s Lowest Cost Stay Platform</h2>
-
-        <p>
-            Minstay is India’s lowest cost stay discovery platform designed to help students, working professionals, and travelers find affordable short-term stays and long-term PG accommodations with ease. The platform focuses on minimum cost living, making it easier to settle in a new city without paying unnecessary premium prices.
-        </p>
-
-        <p>
-            Whether you are staying for a few days or planning long-term living, Minstay helps you discover budget-friendly stays across India.
-
-        <p>
-            Minstay is especially useful for students searching for PG accommodations near colleges, interns relocating temporarily, and professionals moving to a new city for work. The platform reduces the hassle of dealing with brokers and inflated rents by making affordable options easier to find.
-        </p>
-
-        <p>
-            With Minstay, users can explore short-term stays for temporary needs and also connect with long-term PG options through a single platform. As Minstay expands across India, its mission remains clear — to make affordable stays accessible to everyone.
-        </p>
+        <p>Minstay is India’s lowest cost stay discovery platform designed to help students, working professionals, and travelers find affordable short-term stays and long-term PG accommodations with ease. The platform focuses on minimum cost living, making it easier to settle in a new city without paying unnecessary premium prices.</p>
+        <p>Whether you are staying for a few days or planning long-term living, Minstay helps you discover budget-friendly stays across India.</p>
+        <p>Minstay is especially useful for students searching for PG accommodations near colleges, interns relocating temporarily, and professionals moving to a new city for work. The platform reduces the hassle of dealing with brokers and inflated rents by making affordable options easier to find.</p>
+        <p>With Minstay, users can explore short-term stays for temporary needs and also connect with long-term PG options through a single platform. As Minstay expands across India, its mission remains clear — to make affordable stays accessible to everyone.</p>
 
         <h3>Frequently Asked Questions</h3>
-
         <h4>What is Minstay?</h4>
-        <p>
-            Minstay is a stay discovery platform that helps users find India’s lowest cost short-term stays and book long-term PG accommodations.
-        </p>
-
+        <p>Minstay is a stay discovery platform that helps users find India’s lowest cost short-term stays and book long-term PG accommodations.</p>
         <h4>Is Minstay available across India?</h4>
-        <p>
-            Minstay is expanding across major cities and growing towns in India, focusing on affordable accommodation options.
-        </p>
-
+        <p>Minstay is expanding across major cities and growing towns in India, focusing on affordable accommodation options.</p>
         <h4>What types of stays can I find on Minstay?</h4>
-        <p>
-            Users can find short-term stays for temporary living and long-term PG accommodations for students and working professionals.
-        </p>
-
+        <p>Users can find short-term stays for temporary living and long-term PG accommodations for students and working professionals.</p>
         <h4>How is Minstay different from other accommodation platforms?</h4>
-        <p>
-            Minstay focuses on minimum cost living rather than premium or luxury stays, helping users save money while staying comfortably.
-        </p>
-
+        <p>Minstay focuses on minimum cost living rather than premium or luxury stays, helping users save money while staying comfortably.</p>
         <h4>Is Minstay suitable for students and working professionals?</h4>
-        <p>
-            Yes, Minstay is ideal for students, interns, and professionals who are looking for affordable PGs and long-term stays in a new city.
-        </p>
-
+        <p>Yes, Minstay is ideal for students, interns, and professionals who are looking for affordable PGs and long-term stays in a new city.</p>
         <h4>Is Minstay a hotel booking website?</h4>
-        <p>
-            No, Minstay is not a hotel booking website. It is a stay discovery and booking platform focused on affordable short-term and long-term living.
-        </p>
+        <p>No, Minstay is not a hotel booking website. It is a stay discovery and booking platform focused on affordable short-term and long-term living.</p>
     </section>
-    </body>
+</body>
 </html>
