@@ -108,6 +108,22 @@
             margin-right: 8px;
         }
 
+        /* --- NEW PROMO BANNER CSS --- */
+        .promo-banner-container {
+            width: 100%;
+            display: block;
+            margin: 0;
+            padding: 0;
+            line-height: 0; /* Removes any tiny gap below image */
+        }
+        
+        .promo-banner-img {
+            width: 100%;
+            height: auto; /* Maintains aspect ratio */
+            display: block;
+            max-width: 100%; /* Ensures it fits mobile screens perfectly */
+        }
+
         /* --- SEO SECTION --- */
         #minstay-seo-content {
             background-color: rgba(255, 255, 255, 0.8);
@@ -253,6 +269,9 @@
         </div>
     </header>
 
+    <div class="promo-banner-container">
+        <img src="https://raw.githubusercontent.com/zerocoststay/lowest-price-stay/main/banner.png" alt="Exclusive Offer" class="promo-banner-img">
+    </div>
     <section class="trust-section">
         <div class="trust-grid">
             <div class="trust-card">
