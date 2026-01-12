@@ -108,20 +108,22 @@
             margin-right: 8px;
         }
 
-        /* --- NEW PROMO BANNER CSS --- */
+        /* --- NEW PROMO BANNER CSS (UPDATED FOR FRAMED LOOK) --- */
         .promo-banner-container {
             width: 100%;
-            display: block;
-            margin: 0;
-            padding: 0;
-            line-height: 0; /* Removes any tiny gap below image */
+            max-width: 1200px; /* Limits width so it's not full screen */
+            margin: 30px auto; /* Centers the box and adds vertical spacing */
+            padding: 0 20px; /* Adds side gaps so it doesn't touch screen edges on mobile */
+            box-sizing: border-box;
+            text-align: center;
         }
         
         .promo-banner-img {
             width: 100%;
-            height: auto; /* Maintains aspect ratio */
+            height: auto;
             display: block;
-            max-width: 100%; /* Ensures it fits mobile screens perfectly */
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Adds a subtle frame shadow/depth */
         }
 
         /* --- SEO SECTION --- */
