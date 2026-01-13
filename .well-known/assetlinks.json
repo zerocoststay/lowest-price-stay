@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "in.minstay.twa",
+        "sha256_cert_fingerprints": ["51:38:A9:3D:DB:07:87:4B:CF:BF:3A:44:BB:6C:D4:26:C5:CD:26:4D:13:8E:F3:A8:8B:5B:B6:4A:D4:9A:CD:C7"]
+      }
+    }]
