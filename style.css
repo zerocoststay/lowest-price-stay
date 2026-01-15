@@ -247,13 +247,23 @@ input:focus { border-color: var(--primary); }
     letter-spacing: 1px; 
 }
 
-.footer-col p, .footer-col a { 
+/* --- FIX FOR MOBILE FOOTER LINKS (Updated) --- */
+.footer-col p { 
     color: #9aa0a6; 
-    text-decoration: none; 
-    display: block; 
     margin-bottom: 15px; 
     font-size: 15px; 
+}
+
+.footer-col a { 
+    color: #9aa0a6; 
+    text-decoration: none; 
+    display: block;        /* Ensures vertical stacking */
+    margin-bottom: 15px; 
+    padding: 10px 0;       /* ADDED EXTRA PADDING FOR TOUCH */
+    font-size: 15px; 
     transition: 0.2s;
+    position: relative;    /* Safety for layering */
+    z-index: 10;
 }
 
 .footer-col a:hover { color: var(--primary); transform: translateX(5px); }
