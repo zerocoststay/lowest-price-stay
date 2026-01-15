@@ -1,5 +1,5 @@
 // CHANGE THIS VERSION NUMBER EVERY TIME YOU UPDATE THE SITE
-const CACHE_NAME = 'minstay-v1';
+const CACHE_NAME = 'minstay-v2';
 
 const ASSETS_TO_CACHE = [
   '/',
