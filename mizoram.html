@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stays in Mizoram | Minstay</title>
+
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* HERO IMAGE FIXES */
+        .zcs-hero {
+            position: relative;
+            height: 85vh;
+            overflow: hidden;
+            background-color: #2c3e50;
+        }
+
+        .hero-img-static {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 0; filter: brightness(0.6);
+        }
+
+        .search-field { border-right: none !important; }
+
+        /* INVISIBLE BUT CLICKABLE ADMIN BUTTON */
+        .admin-link {
+            opacity: 0; 
+            cursor: default;
+            user-select: none;
+        }
+
+        /* --- QUICK NAV BUTTONS --- */
+        .quick-nav-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+            z-index: 5;
+            position: relative;
+        }
+
+        .btn-quick-nav {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-quick-nav:hover {
+            background: white;
+            color: #1a73e8;
+            transform: translateY(-2px);
+        }
+
+        /* --- LISTING GRID & CARD STYLES --- */
+        .explore-container {
+            padding: 80px 5%;
+            background-color: #f8f9fa;
+        }
+
+        .stay-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stay-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .stay-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        .stay-img-container {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            background-color: #eee;
+            flex-shrink: 0;
+        }
+
+        .stay-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .stay-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .stay-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            white-space: normal !important;
+            overflow: visible !important;
+            text-overflow: unset !important;
+            word-wrap: break-word;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1rem;
+            color: #222;
+            margin-bottom: 15px;
+            margin-top: auto;
+        }
+
+        .price-row strong {
+            font-weight: 800;
+            color: var(--primary, #1a73e8);
+            font-size: 1.1rem;
+        }
+
+        .btn-book {
+            background: linear-gradient(180deg, #4285f4 0%, #1a73e8 100%);
+            color: white; border: none; padding: 12px; border-radius: 8px;
+            font-weight: 600; cursor: pointer; width: 100%; text-align: center;
+            font-size: 0.95rem; transition: opacity 0.2s;
+        }
+        .btn-book:hover { opacity: 0.9; }
+
+        .scale-in {
+            animation: scaleIn 0.4s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        @keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
+
+        /* --- BLOG SECTION STYLES (RESTORED BACKGROUND) --- */
+        .explore-guide-section {
+            background-image: url('https://drive.google.com/thumbnail?id=1NjOw6hxRuBvoRHiyR-2iD6NwGY66AARt&sz=w1920'); 
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            padding: 100px 5%;
+            color: #222;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .explore-guide-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); z-index: 1;
+        }
+
+        .guide-container { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; }
+        .guide-main-header { text-align: center; color: white; margin-bottom: 80px; }
+        .guide-main-header h2 { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 15px; }
+        .guide-main-header p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+
+        .blog-row {
+            display: flex; 
+            align-items: stretch; 
+            justify-content: space-between; 
+            margin-bottom: 80px;
+            background: rgba(255, 255, 255, 0.95); 
+            border-radius: 24px; 
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        .blog-row.reverse { flex-direction: row-reverse; }
+
+        .blog-content { 
+            flex: 1; 
+            padding: 50px; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .blog-image { 
+            flex: 1; 
+            min-height: 400px; 
+            position: relative; 
+            overflow: hidden; 
+            background-color: #ddd; 
+        }
+
+        .blog-image img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.6s ease; 
+            display: block; 
+        }
+
+        .blog-row:hover .blog-image img { transform: scale(1.05); }
+        .blog-content h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--text-main); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+        .blog-content h3 i { color: var(--primary); font-size: 1.8rem; }
+        .blog-content p { font-size: 1.05rem; line-height: 1.7; color: #555; margin-bottom: 20px; }
+        .blog-content h4 { font-size: 1.1rem; font-weight: 700; color: #222; margin-bottom: 10px; text-transform: uppercase; }
+        .blog-content ul { list-style: none; padding: 0; }
+        .blog-content ul li { position: relative; padding-left: 20px; margin-bottom: 8px; color: #555; }
+        .blog-content ul li::before { content: '•'; color: var(--primary); font-weight: bold; position: absolute; left: 0; }
+
+        @media (max-width: 900px) {
+            .blog-row, .blog-row.reverse { flex-direction: column; }
+            .blog-image { width: 100%; height: 250px; min-height: auto; }
+            .blog-content { padding: 30px 20px; }
+            .guide-main-header h2 { font-size: 2.2rem; }
+            .quick-nav-container { flex-direction: column; align-items: center; }
+        }
+
+        /* --- MODAL STYLES --- */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            overflow: auto; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #fefefe; margin: 5% auto; padding: 30px; border: 1px solid #888;
+            width: 90%; max-width: 500px; border-radius: 16px; box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            font-family: 'Inter', sans-serif; position: relative;
+        }
+        .close { position: absolute; top: 20px; right: 20px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .modal h2 { margin-bottom: 20px; font-weight: 700; color: #333; }
+        .modal input, .modal select { width: 100%; padding: 12px; margin: 8px 0 20px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        .btn-submit { background-color: var(--primary); color: white; padding: 14px; border: none; cursor: pointer; width: 100%; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="https://lh3.googleusercontent.com/u/0/d/12VhJBma968JAbZ2YQ_zxMnDjTfi1Oj9e" alt="Minstay">
+        </a>
+        <div class="nav-links">
+            <a href="admin.html" class="admin-link">Admin</a>
+            <a href="https://wa.me/919395346545" class="btn-contact">Support</a>
+        </div>
+    </nav>
+
+    <header class="zcs-hero">
+        <img src="https://drive.google.com/thumbnail?id=1Nit3Z7_6vbgBewtX0bTO5C98JTn_px2i&sz=w1920" 
+             alt="Mizoram Landscape" 
+             class="hero-img-static">
+
+        <div class="hero-content">
+            <h1>Discover the Song<br>of the Hills.</h1>
+            <p>From the vibrant streets of Aizawl to the misty peaks of Phawngpui.</p>
+
+            <div class="search-pill-container">
+                <div class="search-field">
+                    <label>Where in Mizoram?</label>
+                    <input type="text" id="searchInput" placeholder="Aizawl, Lunglei, Champhai..." onkeyup="filterStays()">
+                </div>
+                <button class="search-btn-large" id="searchBtn" onclick="filterStays()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+
+            <div class="quick-nav-container">
+                <a href="#explore-guide" class="btn-quick-nav">Explore Mizoram Guide</a>
+                <a href="mizoram-pg.html" class="btn-quick-nav">Long Term PG Stays</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="explore-section" class="explore-container">
+        <div class="section-header-center">
+            <h2>Stays in Mizoram</h2>
+        </div>
+
+        <div id="stayGrid" class="stay-grid">
+            <p style="text-align:center; width:100%; color:#888;">Connecting to live server...</p>
+        </div>
+    </section>
+
+    <section id="explore-guide" class="explore-guide-section">
+        <div class="guide-container">
+            <div class="guide-main-header">
+                <h2>A Local's Guide to Exploring Mizoram</h2>
+                <p>Mizoram is a land of rolling hills, rivers, and a unique culture. Here is how you can experience the best of the Blue Mountains and the warm Mizo hospitality.</p>
+            </div>
+
+            <div class="blog-row">
+                <div class="blog-content">
+                    <h3><i class="fas fa-mountain"></i> The Blue Mountain</h3>
+                    <p>Phawngpui, also known as the Blue Mountain, is the highest peak in Mizoram. It is revered as the abode of the gods.</p>
+                    <h4>Pro Tips:</h4>
+                    <ul>
+                        <li>Best time for trekking: October to April.</li>
+                        <li>Carry warm clothes as it gets chilly at the peak.</li>
+                    </ul>
+                </div>
+                <div class="blog-image">
+                    <img src="https://drive.google.com/thumbnail?id=1NxwAnx4-3fO1newxYe_z48C7hf-wQhte&sz=w1000" alt="Phawngpui Blue Mountain">
+                </div>
+            </div>
+
+            <div class="blog-row reverse">
+                <div class="blog-content">
+                    <h3><i class="fas fa-music"></i> Culture & Festivals</h3>
+                    <p>The Mizos are known for their vibrant culture and music. The Cheraw (Bamboo Dance) is world-famous and a delight to watch.</p>
+                    <h4>Must Experience:</h4>
+                    <ul>
+                        <li>Try 'Bai' - a traditional vegetable stew.</li>
+                        <li>Visit Solomon's Temple in Aizawl.</li>
+                    </ul>
+                </div>
+                <div class="blog-image">
+                    <img src="https://drive.google.com/thumbnail?id=1O6UL7xedWN1JAHYOie4-dD6LxrxhsH6Q&sz=w1000" alt="Mizo Culture">
+                </div>
+            </div>
+
+            <div class="blog-row">
+                <div class="blog-content">
+                    <h3><i class="fas fa-water"></i> Waterfalls & Nature</h3>
+                    <p>Visit Vantawng Khawhthla, the highest waterfall in Mizoram. Located near Thenzawl, it falls from a height of 750 feet.</p>
+                    <h4>Experiences:</h4>
+                    <ul>
+                        <li>Boating at Tam Dil Lake.</li>
+                        <li>Explore the caves of Pukzing.</li>
+                    </ul>
+                </div>
+                <div class="blog-image">
+                    <img src="https://drive.google.com/thumbnail?id=1Nr2ziSumxtnjvZtxLt5LnxzSUycIbAUG&sz=w1000" alt="Vantawng Falls">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-img-box">
+                <img src="https://drive.google.com/thumbnail?id=1VAL3GV-n_Zr4Squ0W99keTHl1ShbHgZe&sz=w1000" alt="Minstay Footer">
+                <div class="footer-overlay-content">
+                    <img src="https://lh3.googleusercontent.com/u/0/d/12UMwgSCP4-94kxRrBoDt7yfsPa53Xwye" alt="ZeroCostStay Logo" class="footer-logo-overlay">
+                    <p class="footer-about-overlay">Lowest cost stay and long term PG. Built for budget travellers, students & professionals.</p>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>WhatsApp/call: 9395346545 / 8822799346</p>
+                <p>Email: zerocoststay@gmail.com</p>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms & Conditions</a>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/1BdzLAuc8Q/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/minstayofficial?igsh=djJ6dHZ6aXdo-XdoOW9s" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/minstay/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Minstay. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">×</span>
+            <h2 id="modalTitle">Complete Your Booking</h2>
+            <form id="bookingForm">
+                <input type="hidden" id="selectedLocation">
+                <input type="text" id="userName" placeholder="Full Name" required>
+                <select id="userGender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <div class="input-group">
+                    <div class="date-input">
+                        <label>From Date</label>
+                        <input type="date" id="dateFrom" required>
+                    </div>
+                    <div class="date-input">
+                        <label>To Date</label>
+                        <input type="date" id="dateTo" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Confirm via WhatsApp</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
