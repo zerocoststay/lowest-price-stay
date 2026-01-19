@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy | Minstay</title>
-    
+
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#000000">
     <link rel="apple-touch-icon" href="/images/icon-192.png">
 
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        /* --- COPYING YOUR CORE STYLES FOR CONSISTENCY --- */
+        /* --- CORE STYLES (Matched to Terms Page) --- */
         body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             margin: 0;
             background-color: #f0f8ff; 
             overflow-x: hidden; 
@@ -23,14 +27,18 @@
             color: #333;
         }
 
-        /* Background Animation (Same as Index) */
+        /* Allow main content to push footer down */
+        main {
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Background Animation (Same as Index/Terms) */
         body::before {
             content: '';
             position: fixed;
-            top: -10%;
-            left: -10%;
-            width: 70vw;
-            height: 70vw;
+            top: -10%; left: -10%;
+            width: 70vw; height: 70vw;
             background: radial-gradient(circle, rgba(135, 206, 235, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
             border-radius: 50%;
             filter: blur(80px);
@@ -42,10 +50,8 @@
         body::after {
             content: '';
             position: fixed;
-            bottom: -10%;
-            right: -10%;
-            width: 80vw;
-            height: 80vw;
+            bottom: -10%; right: -10%;
+            width: 80vw; height: 80vw;
             background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(176, 224, 230, 0.4) 60%);
             border-radius: 50%;
             filter: blur(100px);
@@ -63,10 +69,6 @@
             0% { transform: translate(0, 0); }
             100% { transform: translate(-15vw, -15vh); }
         }
-
-        /* --- LOGO & NAVBAR --- */
-        .logo img { height: 45px; width: auto; vertical-align: middle; display: block; }
-        .footer-logo { height: 50px; width: auto; margin-bottom: 15px; display: block; }
 
         /* --- PRIVACY CONTENT CONTAINER --- */
         .policy-container {
@@ -116,11 +118,16 @@
             margin-bottom: 15px;
             padding-left: 20px;
         }
-        
+
         .policy-content li {
             margin-bottom: 8px;
             color: #555;
             line-height: 1.6;
+        }
+
+        /* Footer override to ensure consistency */
+        .main-footer {
+            margin-top: auto;
         }
 
         /* Mobile Responsive */
@@ -142,83 +149,95 @@
             <img src="https://lh3.googleusercontent.com/u/0/d/12VhJBma968JAbZ2YQ_zxMnDjTfi1Oj9e" alt="Minstay Logo">
         </a>
         <div class="nav-links">
-            <a href="index.html" style="color: #000; text-decoration: none; font-weight: 600; font-size: 1rem; margin-right: 15px;">Home</a>
-            <a href="https://wa.me/919395346545" target="_blank" style="color: #000; text-decoration: none; font-weight: 600; font-size: 1rem;">Contact Us</a>
+            <a href="https://wa.me/919395346545" class="btn-contact">Support</a>
         </div>
     </nav>
 
-    <div class="policy-container fadeInUp">
-        <div class="policy-header">
-            <h1>Privacy Policy</h1>
-            <p>Last Updated: January 15, 2026</p>
+    <main>
+        <div class="policy-container fadeInUp">
+            <div class="policy-header">
+                <h1>Privacy Policy</h1>
+                <p>Last Updated: January 15, 2026</p>
+            </div>
+
+            <div class="policy-content">
+                <h2>1. Introduction</h2>
+                <p>Welcome to Minstay ("we," "our," or "us"). This Privacy Policy explains how we collect, use, and protect your personal information when you use our website and mobile application (the "Platform"). We are committed to ensuring that your privacy is protected.</p>
+
+                <h2>2. Information We Collect</h2>
+                <p>To provide you with our booking services, we may collect the following types of information:</p>
+                <ul>
+                    <li><strong>Personal Identity Information:</strong> Name, phone number, and email address.</li>
+                    <li><strong>Identity Verification:</strong> ID proof details required for property verification.</li>
+                    <li><strong>Booking Details:</strong> Information regarding your stay duration and preferences.</li>
+                    <li><strong>Device Information:</strong> Basic device data to ensure the App functions correctly on your phone.</li>
+                </ul>
+
+                <h2>3. Use of Information</h2>
+                <p>We use the collected information for the following purposes:</p>
+                <ul>
+                    <li>To process and confirm your accommodation bookings.</li>
+                    <li>To verify identity for the safety of our Host partners.</li>
+                    <li>To communicate booking updates, offers, and support.</li>
+                    <li>To improve our platform security and user experience.</li>
+                </ul>
+
+                <h2>4. Data Sharing</h2>
+                <p>We respect your privacy. We share necessary information (such as your Name and Booking details) only with the specific PG or Homestay partner where you have made a booking to ensure fulfillment. We <strong>do not sell</strong> your personal data to third parties, marketing agencies, or external organizations.</p>
+
+                <p><em>Note on Third-Party Services:</em> Our app uses services like Google Firebase for hosting and authentication. These providers adhere to strict data protection standards.</p>
+
+                <h2>5. Data Security</h2>
+                <p>We implement reasonable security measures, including HTTPS encryption, to protect your data against unauthorized access, alteration, or disclosure. However, no method of transmission over the internet is 100% secure.</p>
+
+                <h2>6. Cookies</h2>
+                <p>Our platform may use cookies to enhance user experience, remember your login session, and analyze usage patterns to improve our services.</p>
+
+                <h2>7. User Rights & Data Deletion</h2>
+                <p>You have the right to access, correct, or request the deletion of your personal data. If you wish to delete your account or data from our servers, please contact us at the email address provided below, and we will process your request within 7 business days.</p>
+
+                <h2>8. Changes to Policy</h2>
+                <p>We may update this Privacy Policy from time to time. Continued use of the platform after any changes indicates your acceptance of the new policy.</p>
+
+                <h2>9. Contact Information</h2>
+                <p>For any privacy-related concerns, data deletion requests, or questions, please contact us directly:</p>
+                <p><strong>Email:</strong> zerocoststay@gmail.com<br>
+                <strong>Phone:</strong> 9395346545</p>
+            </div>
         </div>
-
-        <div class="policy-content">
-            <h2>1. Introduction</h2>
-            <p>Welcome to Minstay ("we," "our," or "us"). This Privacy Policy explains how we collect, use, and protect your personal information when you use our website and mobile application (the "Platform"). We are committed to ensuring that your privacy is protected.</p>
-
-            <h2>2. Information We Collect</h2>
-            <p>To provide you with our booking services, we may collect the following types of information:</p>
-            <ul>
-                <li><strong>Personal Identity Information:</strong> Name, phone number, and email address.</li>
-                <li><strong>Identity Verification:</strong> ID proof details required for property verification.</li>
-                <li><strong>Booking Details:</strong> Information regarding your stay duration and preferences.</li>
-                <li><strong>Device Information:</strong> Basic device data to ensure the App functions correctly on your phone.</li>
-            </ul>
-
-            <h2>3. Use of Information</h2>
-            <p>We use the collected information for the following purposes:</p>
-            <ul>
-                <li>To process and confirm your accommodation bookings.</li>
-                <li>To verify identity for the safety of our Host partners.</li>
-                <li>To communicate booking updates, offers, and support.</li>
-                <li>To improve our platform security and user experience.</li>
-            </ul>
-
-            <h2>4. Data Sharing</h2>
-            <p>We respect your privacy. We share necessary information (such as your Name and Booking details) only with the specific PG or Homestay partner where you have made a booking to ensure fulfillment. We <strong>do not sell</strong> your personal data to third parties, marketing agencies, or external organizations.</p>
-            
-            <p><em>Note on Third-Party Services:</em> Our app uses services like Google Firebase for hosting and authentication. These providers adhere to strict data protection standards.</p>
-
-            <h2>5. Data Security</h2>
-            <p>We implement reasonable security measures, including HTTPS encryption, to protect your data against unauthorized access, alteration, or disclosure. However, no method of transmission over the internet is 100% secure.</p>
-
-            <h2>6. Cookies</h2>
-            <p>Our platform may use cookies to enhance user experience, remember your login session, and analyze usage patterns to improve our services.</p>
-
-            <h2>7. User Rights & Data Deletion</h2>
-            <p>You have the right to access, correct, or request the deletion of your personal data. If you wish to delete your account or data from our servers, please contact us at the email address provided below, and we will process your request within 7 business days.</p>
-
-            <h2>8. Changes to Policy</h2>
-            <p>We may update this Privacy Policy from time to time. Continued use of the platform after any changes indicates your acceptance of the new policy.</p>
-
-            <h2>9. Contact Information</h2>
-            <p>For any privacy-related concerns, data deletion requests, or questions, please contact us directly:</p>
-            <p><strong>Email:</strong> zerocoststay@gmail.com<br>
-            <strong>Phone:</strong> 9395346545</p>
-        </div>
-    </div>
+    </main>
 
     <footer class="main-footer">
         <div class="footer-grid">
-            <div class="footer-col">
-                <img src="https://lh3.googleusercontent.com/u/0/d/12UMwgSCP4-94kxRrBoDt7yfsPa53Xwye" alt="Minstay Logo" class="footer-logo">
-                <p>Lowest cost stay and long term PG. Built for budget travellers, students & professionals.</p>
+            <div class="footer-img-box">
+                <img src="https://drive.google.com/thumbnail?id=1VAL3GV-n_Zr4Squ0W99keTHl1ShbHgZe&sz=w1000" alt="Beautiful Nature Travel">
+
+                <div class="footer-overlay-content">
+                    <img src="https://lh3.googleusercontent.com/u/0/d/12UMwgSCP4-94kxRrBoDt7yfsPa53Xwye" alt="ZeroCostStay Logo" class="footer-logo-overlay">
+                    <p class="footer-about-overlay">Lowest cost stay and long term PG. Built for budget travellers, students & professionals.</p>
+                </div>
             </div>
-            <div class="footer-col">
-                <h4>Explore</h4>
-                <a href="short-stay.html">Short Stays</a>
-                <a href="pg.html">Long-Term PG</a>
-            </div>
+
             <div class="footer-col">
                 <h4>Contact</h4>
-                <p>WhatsApp: 9395346545</p>
+                <p>WhatsApp/call: 9395346545 / 8822799346</p>
                 <p>Email: zerocoststay@gmail.com</p>
             </div>
+
             <div class="footer-col">
                 <h4>Legal</h4>
                 <a href="privacy.html">Privacy Policy</a>
                 <a href="terms.html">Terms & Conditions</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">
