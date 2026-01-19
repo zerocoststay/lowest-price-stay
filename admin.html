@@ -4,116 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minstay | Secure Founder Panel</title>
+
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        #adminDashboard, #loginGate { display: none; }
+        :root {
+            --primary: #1a73e8;
+            --danger: #dc2626;
+            --dark: #222;
+            --gray: #717171;
+        }
+
+        body { background-color: #f7f9fc; min-height: 100vh; display: flex; flex-direction: column; }
+
+        #adminDashboard, #loginGate { display: none; width: 100%; }
 
         /* Login Centering */
         .login-container { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f0f2f5; }
         .login-card { background: white; padding: 40px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .login-card input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 12px; outline: none; }
+
+        /* Admin Navbar Overrides */
+        .admin-nav { background: white; border-bottom: 1px solid #eee; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .admin-nav .logo { font-weight: 800; font-size: 1.5rem; color: var(--primary); text-decoration: none; }
 
         /* Stacked Layout Styling */
-        .admin-content-wrap { max-width: 900px; margin: 40px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 40px; }
-        .admin-card { background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; }
+        .admin-content-wrap { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 30px; }
+        .admin-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #eee; }
 
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f8f9fa; padding-bottom: 15px; }
-        .section-header h3 { font-size: 1.5rem; font-weight: 800; color: var(--dark); }
+        .section-header { margin-bottom: 25px; border-bottom: 2px solid #f8f9fa; padding-bottom: 15px; }
+        .section-header h3 { font-size: 1.4rem; font-weight: 800; color: var(--dark); display: flex; align-items: center; gap: 10px; }
 
-        /* Property Add Logic UI */
-        .type-selector { background: #f8f9fa; padding: 25px; border-radius: 18px; margin: 20px 0; border: 1px solid #eee; }
-        .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; cursor: pointer; font-weight: 700; }
-        .check-item input { width: 20px; height: 20px; accent-color: var(--primary); }
+        /* Form Styling */
+        form label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--dark); }
+        form input, form select { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; outline: none; }
 
-        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .price-section { display: none; animation: fadeInUp 0.4s ease; }
+        .type-selector { background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .check-group { display: flex; gap: 20px; }
+        .check-item { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600; font-size: 14px; }
+        .check-item input { width: 18px; height: 18px; margin: 0; accent-color: var(--primary); }
+
+        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .price-section { display: none; }
         .price-section.active { display: block; }
 
-        /* Inquiry Table Styling */
+        /* Property Management List */
+        .tab-btn-group { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .tab-btn { padding: 8px 18px; border-radius: 50px; border: 1px solid #eee; background: #fff; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.3s; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .property-list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f8f9fa; }
+        .property-list-item:last-child { border-bottom: none; }
+        .btn-delete { color: var(--danger); background: none; border: none; font-weight: 700; cursor: pointer; font-size: 13px; }
+
+        /* Inquiry Table */
         .table-responsive { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { text-align: left; color: #9aa0a6; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; padding: 15px; }
-        td { padding: 15px; border-top: 1px solid #f8f9fa; vertical-align: middle; }
-        .inquiry-tag { padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; color: var(--gray); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 12px; background: #fafafa; }
+        td { padding: 12px; border-bottom: 1px solid #f8f9fa; font-size: 13px; }
+        .inquiry-tag { padding: 4px 10px; border-radius: 50px; font-size: 10px; font-weight: 800; }
         .tag-pg { background: #e8f0fe; color: #1a73e8; }
         .tag-short { background: #e6f7ef; color: #25d366; }
 
-        /* New Property List Styling */
-        .tab-btn-group { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { padding: 10px 20px; border-radius: 50px; border: 1px solid #eee; background: #fff; cursor: pointer; font-weight: 600; transition: 0.3s; }
-        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .property-list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; }
-        .btn-delete { color: var(--danger); background: none; border: none; font-weight: 700; cursor: pointer; }
+        .btn-logout { background: #fee2e2; color: #dc2626; padding: 8px 16px; border-radius: 50px; border: none; font-weight: 700; cursor: pointer; font-size: 13px; }
 
-        .btn-logout { background: #fee2e2; color: #dc2626; padding: 10px 20px; border-radius: 50px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .btn-logout:hover { background: #fecaca; transform: scale(1.05); }
-
-        @media (max-width: 600px) { .price-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .price-grid { grid-template-columns: 1fr; } .check-group { flex-direction: column; gap: 10px; } }
     </style>
 </head>
 <body>
 
     <div id="loginGate" class="login-container">
-        <div class="login-card scale-in">
-            <h2 style="margin-bottom: 10px;">Founder Portal</h2>
-            <p style="color: #666; margin-bottom: 30px;">Minstay Management Access</p>
+        <div class="login-card">
+            <h2>Minstay Founder</h2>
+            <p style="color: #666; margin-bottom: 30px; font-size: 14px;">Secure Management Access</p>
             <form id="loginForm">
                 <input type="email" id="loginEmail" placeholder="Registered Email" required>
                 <input type="password" id="loginPass" placeholder="Security Password" required>
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Verify & Enter</button>
+                <button type="submit" class="btn-book" style="width: 100%; padding: 14px;">Verify & Enter</button>
             </form>
         </div>
     </div>
 
     <div id="adminDashboard">
-        <nav class="navbar">
-            <a href="index.html" class="logo"><span>Minstay</span> </a>
-            <div style="display: flex; gap: 15px; align-items: center;">
-                <button class="btn-logout" onclick="handleLogout()">Logout</button>
-            </div>
+        <nav class="admin-nav">
+            <a href="#" class="logo">Minstay Panel</a>
+            <button class="btn-logout" onclick="handleLogout()">Logout</button>
         </nav>
 
         <div class="admin-content-wrap">
-            <div class="admin-card fadeInUp">
+
+            <div class="admin-card">
                 <div class="section-header">
-                    <h3>List New Property</h3>
+                    <h3><i class="fas fa-plus-circle"></i> List New Property</h3>
                 </div>
                 <form id="addStayForm">
-                    <label>Property Name / Exact Location</label>
+                    <label>Property Display Name & Location</label>
                     <input type="text" id="stayLocation" placeholder="e.g. Near IIT Guwahati, North Amingaon" required>
 
+                    <label>Assign to State (Page Visibility)</label>
+                    <select id="stayState" required>
+                        <option value="">-- Select State --</option>
+                        <option value="assam">Assam</option>
+                        <option value="mizoram">Mizoram</option>
+                    </select>
+
                     <div class="type-selector">
-                        <p style="font-size: 14px; margin-bottom: 15px; color: #555;">Which services are available here?</p>
-                        <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+                        <label style="margin-bottom: 12px; display: block;">Stay Category</label>
+                        <div class="check-group">
                             <label class="check-item">
-                                <input type="checkbox" id="checkShort" onchange="toggleInputs()"> Short Term Stay
+                                <input type="checkbox" id="checkShort" onchange="toggleInputs()"> Short Term (Daily)
                             </label>
                             <label class="check-item">
-                                <input type="checkbox" id="checkPG" onchange="toggleInputs()"> Long Term PG
+                                <input type="checkbox" id="checkPG" onchange="toggleInputs()"> Long Term (PG)
                             </label>
                         </div>
                     </div>
 
                     <div class="price-grid">
                         <div id="shortPriceSection" class="price-section">
-                            <label style="font-size: 13px; font-weight: 700;">Nightly Price (Rs.)</label>
-                            <input type="number" id="shortPrice" placeholder="Price per night">
+                            <label>Nightly Rate (₹)</label>
+                            <input type="number" id="shortPrice" placeholder="per night">
                         </div>
                         <div id="pgPriceSection" class="price-section">
-                            <label style="font-size: 13px; font-weight: 700;">Monthly Rent (Rs.)</label>
-                            <input type="number" id="pgPrice" placeholder="Price per month">
+                            <label>Monthly Rent (₹)</label>
+                            <input type="number" id="pgPrice" placeholder="per month">
                         </div>
                     </div>
 
-                    <label style="margin-top: 20px; display: block;">Image Link (Drive/Direct Link)</label>
+                    <label>Image Link (Direct URL)</label>
                     <input type="text" id="stayImage" placeholder="Paste property image URL" required>
-                    <button type="submit" class="btn-submit" style="background: var(--primary); margin-top: 25px; height: 60px;">Publish to Platform</button>
+
+                    <button type="submit" class="btn-book" style="width: 100%; padding: 16px; font-size: 1rem;">Publish to Platform</button>
                 </form>
             </div>
 
-            <div class="admin-card fadeInUp" style="animation-delay: 0.1s;">
+            <div class="admin-card">
                 <div class="section-header">
-                    <h3>Manage Listed Properties</h3>
+                    <h3><i class="fas fa-tasks"></i> Manage Listed Properties</h3>
                 </div>
                 <div class="tab-btn-group">
                     <button id="tabBtnShort" class="tab-btn active" onclick="switchPropTab('short')">Short Stays</button>
@@ -123,24 +152,26 @@
                     </div>
             </div>
 
-            <div class="admin-card fadeInUp" style="animation-delay: 0.2s;">
+            <div class="admin-card">
                 <div class="section-header">
-                    <h3>Customer Inquiries</h3>
+                    <h3><i class="fas fa-envelope-open-text"></i> Recent Inquiries</h3>
                 </div>
                 <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
-                                <th>Customer Details</th>
+                                <th>Customer</th>
                                 <th>Location</th>
-                                <th>Stay Type</th>
+                                <th>Type</th>
                                 <th>Check-in</th>
                             </tr>
                         </thead>
-                        <tbody id="bookingsList"></tbody>
+                        <tbody id="bookingsList">
+                            </tbody>
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -161,7 +192,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // PERSISTENCE & SESSION
         auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
         auth.onAuthStateChanged(user => {
@@ -175,9 +205,6 @@
                 document.getElementById('adminDashboard').style.display = 'none';
             }
         });
-
-        // AUTO-LOGOUT
-        window.addEventListener('pagehide', () => { auth.signOut(); });
 
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
@@ -193,7 +220,6 @@
             document.getElementById('pgPriceSection').classList.toggle('active', document.getElementById('checkPG').checked);
         }
 
-        // MANAGEMENT TABS LOGIC
         let currentPropType = 'short';
         function switchPropTab(type) {
             currentPropType = type;
@@ -208,17 +234,18 @@
 
             db.collection('listed_stays').where(fieldToCheck, '==', true).onSnapshot(snap => {
                 container.innerHTML = '';
-                if(snap.empty) container.innerHTML = '<p style="color:#888;">No properties listed here yet.</p>';
+                if(snap.empty) container.innerHTML = '<p style="color:#888; font-size:13px;">No properties listed here yet.</p>';
                 snap.forEach(doc => {
                     const p = doc.data();
                     const price = type === 'short' ? p.shortPrice : p.pgPrice;
                     container.innerHTML += `
                         <div class="property-list-item">
                             <div>
-                                <strong style="display:block;">${p.location}</strong>
-                                <small style="color:var(--primary);">Rs. ${price} / ${type === 'short' ? 'night' : 'month'}</small>
+                                <strong style="display:block; font-size:14px;">${p.location}</strong>
+                                <small style="color:var(--gray); text-transform: uppercase; font-size: 10px;">State: ${p.state || 'Generic'}</small><br>
+                                <small style="color:var(--primary); font-weight:700;">₹${price} / ${type === 'short' ? 'night' : 'month'}</small>
                             </div>
-                            <button class="btn-delete" onclick="deleteProperty('${doc.id}')">Delete</button>
+                            <button class="btn-delete" onclick="deleteProperty('${doc.id}')">Remove</button>
                         </div>`;
                 });
             });
@@ -227,21 +254,22 @@
         async function deleteProperty(id) {
             if(confirm("Confirm removal of this property?")) {
                 await db.collection('listed_stays').doc(id).delete();
-                alert("Property Deleted.");
             }
         }
 
-        // ADD PROPERTY LOGIC
         document.getElementById('addStayForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const isShort = document.getElementById('checkShort').checked;
             const isPG = document.getElementById('checkPG').checked;
+            const state = document.getElementById('stayState').value;
+
             if(!isShort && !isPG) return alert("Select at least one category!");
+            if(!state) return alert("Please select a state!");
 
             try {
-                // Ensure imageLink field matches script.js reader
                 await db.collection('listed_stays').add({
                     location: document.getElementById('stayLocation').value,
+                    state: state,
                     imageLink: document.getElementById('stayImage').value,
                     isShortStay: isShort,
                     isPG: isPG,
@@ -249,13 +277,12 @@
                     pgPrice: isPG ? document.getElementById('pgPrice').value : null,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                alert("Property is now Live!");
+                alert("Successfully listed for " + state);
                 document.getElementById('addStayForm').reset();
                 toggleInputs();
             } catch (err) { alert(err.message); }
         });
 
-        // INQUIRIES LOAD
         function loadBookings() {
             db.collection('bookings').orderBy('timestamp', 'desc').onSnapshot(snap => {
                 const list = document.getElementById('bookingsList');
@@ -265,10 +292,10 @@
                     const tagClass = b.type === 'PG' ? 'tag-pg' : 'tag-short';
                     list.innerHTML += `
                         <tr>
-                            <td><div style="font-weight:800;">${b.name}</div><div style="font-size:12px; color:#888;">${b.gender}</div></td>
+                            <td><div style="font-weight:700;">${b.name}</div><div style="font-size:11px; color:#888;">${b.gender}</div></td>
                             <td>${b.location}</td>
                             <td><span class="inquiry-tag ${tagClass}">${b.type}</span></td>
-                            <td style="font-weight:600; font-size:13px;">${b.fromDate}</td>
+                            <td style="font-weight:600;">${b.fromDate}</td>
                         </tr>`;
                 });
             });
