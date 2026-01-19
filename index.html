@@ -3,238 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minstay | Lowest cost stay and long term PG</title>
+    <title>Minstay | Stay Smarter</title>
 
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#000000">
-    <link rel="apple-touch-icon" href="/images/icon-192.png">
-    
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        /* --- BACKGROUND ORBS (Existing) --- */
-        body {
-            margin: 0;
-            background-color: #f0f8ff; 
-            overflow-x: hidden; 
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: -10%;
-            left: -10%;
-            width: 70vw;
-            height: 70vw;
-            background: radial-gradient(circle, rgba(135, 206, 235, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -1;
-            animation: driftBlue 20s infinite alternate ease-in-out;
-            opacity: 0.7;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -10%;
-            right: -10%;
-            width: 80vw;
-            height: 80vw;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(176, 224, 230, 0.4) 60%);
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            animation: driftWhite 25s infinite alternate-reverse ease-in-out;
-        }
-
-        @keyframes driftBlue {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(20vw, 10vh) scale(1.2); }
-            100% { transform: translate(10vw, -10vh) scale(0.9); }
-        }
-
-        @keyframes driftWhite {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-15vw, -15vh); }
-        }
-
-        /* --- STANDARD ELEMENTS --- */
-        .logo img {
-            height: 45px; 
-            width: auto;
-            vertical-align: middle;
-            display: block; 
-        }
-        .footer-logo {
-            height: 50px; 
-            width: auto;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .segment-box img {
+        /* CSS to Center the Single Destination Card */
+        .destinations-scroll-wrapper {
+            display: flex;
+            justify-content: center; 
+            gap: 24px;
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px; 
-            margin-bottom: 15px; 
-            display: block;
+            overflow: hidden;
         }
 
-        .segment-box {
+        @media (max-width: 600px) {
+            .destinations-scroll-wrapper {
+                justify-content: center;
+                padding-left: 0;
+            }
+        }
+
+        /* --- EXPLORE NORTH EAST SECTION STYLING --- */
+        .explore-northeast-container {
+            padding: 80px 5%;
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
+                        url('https://drive.google.com/thumbnail?id=1PM4N6KmYqAD7ucwUkbBJaEEjjDRrfkC3&sz=w1920');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-referrer;
+            background-attachment: scroll; 
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .explore-northeast-container h2 {
+            color: #ffffff;
             text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            color: #f0f0f0;
+            margin-top: 0;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .northeast-content-box {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(5px);
-            border-radius: 12px;
-        }
-
-        .segment-box h2 { margin-bottom: 10px; }
-
-        .segment-box ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 20px 0;
-            text-align: center;
-        }
-
-        .segment-box li {
-            margin-bottom: 8px;
-            position: relative;
-            padding-left: 0; 
-        }
-        
-        .segment-box li:before {
-            content: "•";
-            color: inherit;
-            margin-right: 8px;
-        }
-
-        /* --- NEW PROMO BANNER CSS (UPDATED FOR FRAMED LOOK) --- */
-        .promo-banner-container {
-            width: 100%;
-            max-width: 1200px; /* Limits width so it's not full screen */
-            margin: 30px auto; /* Centers the box and adds vertical spacing */
-            padding: 0 20px; /* Adds side gaps so it doesn't touch screen edges on mobile */
-            box-sizing: border-box;
-            text-align: center;
-        }
-        
-        .promo-banner-img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 20px; /* Rounded corners */
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Adds a subtle frame shadow/depth */
-        }
-
-        /* --- SEO SECTION --- */
-        #minstay-seo-content {
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 40px 20px;
-            margin-top: 0;
-            border-top: 1px solid #e0e0e0;
-            font-family: 'Inter', sans-serif;
-            color: #333;
-        }
-        
-        #minstay-seo-content > * {
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        #minstay-seo-content h2, 
-        #minstay-seo-content h3 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-
-        #minstay-seo-content h4 {
-            margin-top: 25px;
-            margin-bottom: 10px;
-            color: #444;
-            font-weight: 700;
-        }
-
-        #minstay-seo-content p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: #555;
-        }
-
-        /* --- VIDEO BACKGROUND HERO CSS --- */
-        .zcs-hero {
-            position: relative;
-            min-height: 100vh; /* Full screen height for impact */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            padding: 20px; 
-            box-sizing: border-box;
-            background-color: #000; /* Fallback color */
-        }
-
-        .hero-video-bg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translate(-50%, -50%); /* Centering trick */
-            object-fit: cover;
-            z-index: 1;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Dark overlay for readability */
-            z-index: 2;
-        }
-
-        .hero-container {
-            position: relative;
-            z-index: 3;
-            width: 100%;
+            gap: 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .hero-text-content {
+        .northeast-text {
             text-align: center;
             max-width: 900px;
             margin: 0 auto;
-            color: white;
-        }
-
-        .hero-text-content h1 {
+            line-height: 1.8;
+            font-size: 1.1rem;
             color: #ffffff;
-            font-size: 3.5rem; 
-            line-height: 1.2;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
-            margin-bottom: 10px;
-        }
-        
-        /* Mobile responsive adjustments */
-        @media (max-width: 768px) {
-            .hero-text-content h1 {
-                font-size: 2.2rem;
-            }
         }
 
-        .hero-text-content h1 span {
-            color: #87CEEB; /* Light Blue highlight */
+        .culture-highlights {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.12); 
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .highlight-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .highlight-item i {
+            color: #a2f0a5; 
+            font-size: 1.4rem;
+            margin-top: 2px;
+        }
+
+        .highlight-item span {
+            color: #ffffff;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Gallery Grid Layout */
+        .northeast-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 220px);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item.large {
+            grid-row: span 2;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .img-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 25px 15px 15px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .culture-highlights { grid-template-columns: 1fr; }
+            .northeast-gallery { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .gallery-item.large { grid-row: span 1; height: 280px; }
+            .gallery-item { height: 220px; }
         }
     </style>
 </head>
@@ -242,149 +169,261 @@
 
     <nav class="navbar">
         <a href="index.html" class="logo">
-            <img src="https://lh3.googleusercontent.com/u/0/d/12VhJBma968JAbZ2YQ_zxMnDjTfi1Oj9e" alt="ZeroCostStay Logo">
+            <img src="https://lh3.googleusercontent.com/u/0/d/12VhJBma968JAbZ2YQ_zxMnDjTfi1Oj9e" alt="Minstay">
         </a>
         <div class="nav-links">
-            <a href="https://wa.me/919395346545" target="_blank" style="color: #000; text-decoration: none; font-weight: 600; font-size: 1rem;">Contact Us</a>
+            <a href="https://wa.me/919395346545" class="btn-contact">Support</a>
         </div>
     </nav>
 
-    <header class="zcs-hero scale-in">
-        
+    <header class="zcs-hero">
         <video autoplay muted loop playsinline class="hero-video-bg">
-            <source src="https://raw.githubusercontent.com/zerocoststay/lowest-price-stay/main/header-bg.mp4" type="video/mp4">
-            Your browser does not support the video tag.
+            <source src="https://raw.githubusercontent.com/zerocoststay/lowest-price-stay/main/100415-video-720%20(1)%20-%20Trim.mp4" type="video/mp4">
         </video>
-        
-        <div class="hero-overlay"></div>
 
-        <div class="hero-container">
-            <div class="hero-text-content fadeInUp">
-                <h1>Lowest cost stay<br><span>and long term PG</span></h1>
+        <div class="hero-content">
+            <h1>India's Most Affordable<br>Stay Provider</h1>
+            <p>Expert support for a smooth, budget-friendly experience in North-East India.</p>
 
-                <p style="margin-top: 25px; margin-bottom: 35px;">
-                    <span style="background: rgba(255, 255, 255, 0.2); color: #ffffff; padding: 12px 24px; border-radius: 50px; font-weight: 600; font-size: 1rem; border: 1px solid rgba(255,255,255,0.4); display: inline-block; backdrop-filter: blur(8px); box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-                        If you are a budget traveller, job seeker or student, just forget about Hotel and Homestays
-                    </span>
-                </p>
-
-                <div class="hero-btns" style="justify-content: center; display: flex; gap: 20px; flex-wrap: wrap;">
-                    <a href="short-stay.html" class="btn-primary pulse">Short Stay Booking</a>
-                    <a href="pg.html" class="btn-primary pulse">Long-Term PG Booking</a>
+            <div class="search-pill-container">
+                <div class="search-field">
+                    <label>Where to?</label>
+                    <input type="text" id="mainSearchInput" placeholder="e.g. Ganeshguri, Guwahati, Assam...">
                 </div>
+
+                <div class="search-field">
+                    <label>Stay Type</label>
+                    <select id="mainStayType">
+                        <option value="short">Short Stay (Daily)</option>
+                        <option value="pg">PG / Long Term (Monthly)</option>
+                    </select>
+                </div>
+
+                <button class="search-btn-large" onclick="executeGlobalSearch()">
+                    <i class="fas fa-search"></i> Search
+                </button>
             </div>
         </div>
     </header>
 
-    <div class="promo-banner-container">
-        <img src="https://raw.githubusercontent.com/zerocoststay/lowest-price-stay/main/banner.png" alt="Exclusive Offer" class="promo-banner-img">
-    </div>
-    <section class="trust-section">
-        <div class="trust-grid">
-            <div class="trust-card">
-                <span class="icon">✔</span>
-                <h3>Verified Properties</h3>
+    <section class="destinations-container">
+        <div class="destinations-header">
+            <h2>Top Destinations</h2>
+        </div>
+
+        <div class="carousel-wrapper">
+            <button class="nav-btn prev-btn" onclick="scrollDestinations(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="destinations-scroll-wrapper" id="destWrapper">
+                <div class="dest-card" onclick="window.location.href='assam.html'">
+                    <div class="dest-img-box">
+                        <img src="https://drive.google.com/thumbnail?id=1qL0PUyVQQ-M0fC9zr3kOdkkeg6sWvYyx&sz=w1000" alt="Assam">
+                    </div>
+                    <div class="dest-info">
+                        <h3>Assam</h3>
+                    </div>
+                </div>
             </div>
-            <div class="trust-card">
-                <span class="icon">✔</span>
-                <h3>Lowest cost</h3>
+
+            <button class="nav-btn next-btn" onclick="scrollDestinations(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <section class="why-choose-container">
+        <div class="section-header-center">
+            <h2>Why Choose Minstay?</h2>
+        </div>
+
+        <div class="features-grid">
+            <div class="poster-card">
+                <h3>Lowest Price Guarantee</h3>
+                <p>We negotiate directly with property owners to bring you the best rates in the market, ensuring you never overpay for quality stays.</p>
             </div>
-            <div class="trust-card">
-                <span class="icon">✔</span>
-                <h3>Food Included</h3>
+            <div class="poster-card">
+                <h3>100% Verified Properties</h3>
+                <p>Every listing on Minstay is physically verified by our team to ensure the photos match reality and the amenities are genuine.</p>
             </div>
-            <div class="trust-card">
-                <span class="icon">✔</span>
-                <h3>Flexible Duration</h3>
+            <div class="poster-card">
+                <h3>Zero Hidden Fees</h3>
+                <p>What you see is what you pay. No surprise booking fees, no hidden service charges. Complete transparency in pricing.</p>
+            </div>
+            <div class="poster-card">
+                <h3>24/7 Dedicated Support</h3>
+                <p>Our support team is available round the clock via WhatsApp and Phone to assist you from check-in to check-out.</p>
+            </div>
+            <div class="poster-card">
+                <h3>Instant Confirmation</h3>
+                <p>Skip the waiting game. Book your stay instantly and get confirmation vouchers delivered to your phone immediately.</p>
+            </div>
+            <div class="poster-card">
+                <h3>Local Expertise</h3>
+                <p>Born in the North East, we understand the local geography better than anyone, helping you find the perfect location.</p>
             </div>
         </div>
     </section>
 
-    <section class="segment-section">
-        <div class="segment-container">
-            <div class="segment-box short-stay-box fadeInUp">
-                <img src="https://lh3.googleusercontent.com/d/175JtV4R9Hf9sLvvozuxP8ze2MV9vV3N3" alt="Short Stay Offer - 3 Meals from Rs 499">
-                <h2>Short Stay</h2>
-                <ul>
-                    <li>Daily / weekly stays</li>
-                    <li>Near exam centres / offices</li>
-                    <li>Starting from Rs.499</li>
-                    <li>Free two times food</li>
-                </ul>
-                <a href="short-stay.html" class="btn-primary">Explore Short Stays →</a>
+    <section class="explore-northeast-container">
+        <div class="section-header-center">
+            <h2>Explore the Mystical North East</h2>
+            <p class="section-subtitle">Beyond the clouds lies a land of untouched beauty and vibrant heritage.</p>
+        </div>
+
+        <div class="northeast-content-box">
+            <div class="northeast-text">
+                <p>North East India, the <strong>"Land of the Seven Sisters and One Brother,"</strong> is a paradise for nature lovers and seekers of authentic culture. It is a region where the sun greets India first, lighting up emerald tea gardens, ancient monasteries, and the purest river waters in Asia.</p>
+
+                <div class="culture-highlights">
+                    <div class="highlight-item">
+                        <i class="fas fa-leaf"></i>
+                        <span><strong>Pure Biodiversity:</strong> Witness the majestic One-Horned Rhino in Assam and the mysterious floating islands of Manipur.</span>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-music"></i>
+                        <span><strong>Vibrant Heritage:</strong> Home to over 200 diverse tribes, each celebrating life through unique folk music, hand-woven crafts, and colourful festivals.</span>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-mountain"></i>
+                        <span><strong>Ethereal Peaks:</strong> Trek through the misty living root bridges of Meghalaya or find peace in the snow-capped mountains of Arunachal Pradesh.</span>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-utensils"></i>
+                        <span><strong>Untouched Flavors:</strong> Embark on a culinary journey with organic, exotic ingredients and traditional fermented delicacies unique to the region.</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="segment-box pg-box fadeInUp" style="animation-delay: 0.2s;">
-                <img src="https://lh3.googleusercontent.com/d/174EJkdzU5IprozHwqtGwrP2TWYREuSPm" alt="PG Stay Offer - No Brokerage">
-                <h2>Long-Term PG</h2>
-                <ul>
-                    <li>Monthly rent options</li>
-                    <li>Shared / Private rooms</li>
-                    <li>Security & hygiene</li>
-                    <li>Long-term comfort</li>
-                </ul>
-                <a href="pg.html" class="btn-primary">Explore PG Options →</a>
+            <div class="northeast-gallery">
+                <div class="gallery-item large">
+                    <img src="https://drive.google.com/thumbnail?id=1ODhT3b6pbRt-hzyy2dH-18lHaSpFq6ao&sz=w1000" alt="Meghalaya Root Bridge">
+                    <div class="img-label">Living Root Bridges, Meghalaya</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://drive.google.com/thumbnail?id=1OJGElj6OCYeIiY1FP1OWz9cR8XGAECea&sz=w1000" alt="Tawang Monastery">
+                    <div class="img-label">Tawang Monastery, Arunachal</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://drive.google.com/thumbnail?id=1OHcag-stxVNyqYh0ytY7hFHcRfzK9KnQ&sz=w1000" alt="Assam Tea Garden">
+                    <div class="img-label">Lush Tea Estates, Assam</div>
+                </div>
             </div>
         </div>
     </section>
 
     <footer class="main-footer">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <img src="https://lh3.googleusercontent.com/u/0/d/12UMwgSCP4-94kxRrBoDt7yfsPa53Xwye" alt="ZeroCostStay Logo" class="footer-logo">
-                    <p>Lowest cost stay and long term PG. Built for budget travellers, students & professionals.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Explore</h4>
-                    <a href="short-stay.html">Short Stays</a>
-                    <a href="pg.html">Long-Term PG</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Contact</h4>
-                    <p>WhatsApp/call: 9395346545 / 8822799346</p>
-                    <p>Email: zerocoststay@gmail.com</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms & Conditions</a>
+        <div class="footer-grid">
+            <div class="footer-img-box">
+                <img src="https://drive.google.com/thumbnail?id=1VAL3GV-n_Zr4Squ0W99keTHl1ShbHgZe&sz=w1000" alt="Beautiful Nature Travel">
+                <div class="footer-overlay-content">
+                    <img src="https://lh3.googleusercontent.com/u/0/d/12UMwgSCP4-94kxRrBoDt7yfsPa53Xwye" alt="ZeroCostStay Logo" class="footer-logo-overlay">
+                    <p class="footer-about-overlay">Lowest cost stay and long term PG. Built for budget travellers, students & professionals.</p>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>© 2025 Minstay. All rights reserved.</p>
+
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>WhatsApp/call: 9395346545 / 8822799346</p>
+                <p>Email: zerocoststay@gmail.com</p>
             </div>
+
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms & Conditions</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/1BdzLAuc8Q/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/minstayofficial?igsh=djJ6dHZ6aXdoOW9s" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/minstay/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Minstay. All rights reserved.</p>
+        </div>
     </footer>
 
-    <section id="minstay-seo-content">
-        <h2>Minstay – India’s Lowest Cost Stay Platform</h2>
-        <p>Minstay is India’s lowest cost stay discovery platform designed to help students, working professionals, and travelers find affordable short-term stays and long-term PG accommodations with ease. The platform focuses on minimum cost living, making it easier to settle in a new city without paying unnecessary premium prices.</p>
-        <p>Whether you are staying for a few days or planning long-term living, Minstay helps you discover budget-friendly stays across India.</p>
-        <p>Minstay is especially useful for students searching for PG accommodations near colleges, interns relocating temporarily, and professionals moving to a new city for work. The platform reduces the hassle of dealing with brokers and inflated rents by making affordable options easier to find.</p>
-        <p>With Minstay, users can explore short-term stays for temporary needs and also connect with long-term PG options through a single platform. As Minstay expands across India, its mission remains clear — to make affordable stays accessible to everyone.</p>
-
-        <h3>Frequently Asked Questions</h3>
-        <h4>What is Minstay?</h4>
-        <p>Minstay is a stay discovery platform that helps users find India’s lowest cost short-term stays and book long-term PG accommodations.</p>
-        <h4>Is Minstay available across India?</h4>
-        <p>Minstay is expanding across major cities and growing towns in India, focusing on affordable accommodation options.</p>
-        <h4>What types of stays can I find on Minstay?</h4>
-        <p>Users can find short-term stays for temporary living and long-term PG accommodations for students and working professionals.</p>
-        <h4>How is Minstay different from other accommodation platforms?</h4>
-        <p>Minstay focuses on minimum cost living rather than premium or luxury stays, helping users save money while staying comfortably.</p>
-        <h4>Is Minstay suitable for students and working professionals?</h4>
-        <p>Yes, Minstay is ideal for students, interns, and professionals who are looking for affordable PGs and long-term stays in a new city.</p>
-        <h4>Is Minstay a hotel booking website?</h4>
-        <p>No, Minstay is not a hotel booking website. It is a stay discovery and booking platform focused on affordable short-term and long-term living.</p>
-    </section>
-
     <script>
+        function executeGlobalSearch() {
+            const fullQuery = document.getElementById('mainSearchInput').value.toLowerCase().trim();
+            const stayType = document.getElementById('mainStayType').value;
+
+            if (!fullQuery) {
+                alert("Please enter a location or area (e.g. Ganeshguri)");
+                return;
+            }
+
+            let state = "assam"; 
+            if (fullQuery.includes('mizoram') || fullQuery.includes('aizawl') || fullQuery.includes('lunglei')) {
+                state = "mizoram";
+            }
+
+            let isPG = (stayType === 'pg' || fullQuery.includes('pg') || fullQuery.includes('long') || fullQuery.includes('monthly'));
+
+            let area = fullQuery
+                .replace('assam', '')
+                .replace('mizoram', '')
+                .replace('pg', '')
+                .replace('long term', '')
+                .replace('stay', '')
+                .replace('short', '')
+                .replace('monthly', '')
+                .replace('aizawl', '')
+                .replace('guwahati', '')
+                .trim();
+
+            let targetPage = (state === "assam") ? (isPG ? "pg.html" : "assam.html") : (isPG ? "mizoram-pg.html" : "mizoram.html");
+
+            if (area !== "") {
+                window.location.href = targetPage + "?filter=" + encodeURIComponent(area);
+            } else {
+                window.location.href = targetPage;
+            }
+        }
+
+        // Restored Service Worker Registration for Android App
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('Service Worker Registered!', reg))
-                .catch(err => console.log('Service Worker Failed!', err));
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker Registered!', reg))
+                    .catch(err => console.log('Service Worker Failed!', err));
             });
         }
+
+        const destWrapper = document.getElementById('destWrapper');
+        let autoScrollInterval;
+
+        function scrollDestinations(direction) {
+            const scrollAmount = 224; 
+            destWrapper.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+            resetAutoScroll();
+        }
+
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                const cardWidth = 224;
+                const maxScrollLeft = destWrapper.scrollWidth - destWrapper.clientWidth;
+
+                if (destWrapper.scrollLeft >= maxScrollLeft - 10 && maxScrollLeft > 0) {
+                    destWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+                } else if (maxScrollLeft > 0) {
+                    destWrapper.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                }
+            }, 3000); 
+        }
+
+        function resetAutoScroll() {
+            clearInterval(autoScrollInterval);
+            startAutoScroll();
+        }
+
+        startAutoScroll();
     </script>
 </body>
 </html>
