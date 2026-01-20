@@ -13,11 +13,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* CSS to Center the Destinations */
+        /* CSS to Center the Destination Cards */
         .destinations-scroll-wrapper {
             display: flex;
             justify-content: center; 
             gap: 24px;
+            width: 100%;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+
+        /* Hide scrollbar for clean look */
+        .destinations-scroll-wrapper::-webkit-scrollbar {
+            display: none;
         }
 
         @media (max-width: 600px) {
@@ -31,7 +39,6 @@
         .explore-northeast-container {
             padding: 80px 5%;
             position: relative;
-            /* Updated Background with your new Drive Link */
             background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
                         url('https://drive.google.com/thumbnail?id=1PM4N6KmYqAD7ucwUkbBJaEEjjDRrfkC3&sz=w1920');
             background-size: cover;
@@ -187,7 +194,7 @@
             <div class="search-pill-container">
                 <div class="search-field">
                     <label>Where to?</label>
-                    <input type="text" id="mainSearchInput" placeholder="e.g. Ganeshguri, Aizawl, Assam...">
+                    <input type="text" id="mainSearchInput" placeholder="e.g. Ganeshguri, Guwahati, Assam...">
                 </div>
 
                 <div class="search-field">
@@ -346,9 +353,9 @@
             <div class="footer-col">
                 <h4>Follow Us</h4>
                 <div class="social-links">
-                    <a href="https://www.facebook.com/share/1BdzLAuc8Q/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/minstayofficial?igsh=djJ6dHZ6aXdo-XdoOW9s" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/company/minstay/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.facebook.com/share/1BdzLAuc8Q/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/minstayofficial?igsh=djJ6dHZ6aXdoOW9s" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/minstay/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
         </div>
@@ -358,7 +365,6 @@
     </footer>
 
     <script>
-        // --- SMART GLOBAL SEARCH NAVIGATION LOGIC ---
         function executeGlobalSearch() {
             const fullQuery = document.getElementById('mainSearchInput').value.toLowerCase().trim();
             const stayType = document.getElementById('mainStayType').value;
@@ -368,16 +374,13 @@
                 return;
             }
 
-            // 1. Determine State based on input
-            let state = "assam"; // Default
-            if (fullQuery.includes('mizoram') || fullQuery.includes('aizawl') || fullQuery.includes('lunglei') || fullQuery.includes('champhai')) {
+            let state = "assam"; 
+            if (fullQuery.includes('mizoram') || fullQuery.includes('aizawl') || fullQuery.includes('lunglei')) {
                 state = "mizoram";
             }
 
-            // 2. Determine Stay Type (Short vs PG) based on input or dropdown
             let isPG = (stayType === 'pg' || fullQuery.includes('pg') || fullQuery.includes('long') || fullQuery.includes('monthly'));
 
-            // 3. Extract Area (Remove noise words to get just "Ganeshguri")
             let area = fullQuery
                 .replace('assam', '')
                 .replace('mizoram', '')
@@ -390,15 +393,8 @@
                 .replace('guwahati', '')
                 .trim();
 
-            // 4. Determine Target Page
-            let targetPage = "";
-            if (state === "assam") {
-                targetPage = isPG ? "pg.html" : "assam.html";
-            } else {
-                targetPage = isPG ? "mizoram-pg.html" : "mizoram.html";
-            }
+            let targetPage = (state === "assam") ? (isPG ? "pg.html" : "assam.html") : (isPG ? "mizoram-pg.html" : "mizoram.html");
 
-            // 5. Redirect with Filter Parameter
             if (area !== "") {
                 window.location.href = targetPage + "?filter=" + encodeURIComponent(area);
             } else {
@@ -406,10 +402,12 @@
             }
         }
 
-        // Standard script components
+        // Service Worker Registration for Android App
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js');
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker Registered!', reg))
+                    .catch(err => console.log('Service Worker Failed!', err));
             });
         }
 
