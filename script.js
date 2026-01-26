@@ -8,15 +8,11 @@ const firebaseConfig = {
   appId: "1:674887550826:web:8a44c2c27b30d3e9808713"
 };
 
-// Initialize Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 const db = firebase.firestore();
 
-/**
- * Image Link Processor
- */
 function processImageLink(url) {
     const fallback = 'https://images.unsplash.com/photo-1522770179533-24471fcdba45?q=80&w=600';
     if (!url || typeof url !== 'string' || url.trim() === "") return fallback;
@@ -43,12 +39,11 @@ function loadStays() {
 
     stayGrid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Loading verified listings...</p>';
 
-    // 1. Detect Context (Page & State)
-    const currentPath = window.location.pathname;
-    const isPGPage = currentPath.includes('pg.html') || currentPath.includes('mizoram-pg.html');
+    // Robust Page Detection (Checks for 'pg' anywhere in the URL)
+    const currentPath = window.location.pathname.toLowerCase();
+    const isPGPage = currentPath.includes('pg'); // Covers pg.html, mizoram-pg.html, /pg
     const isMizoramPage = currentPath.includes('mizoram');
 
-    // 2. Fetch all listings
     db.collection('listed_stays').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
         stayGrid.innerHTML = '';
         let count = 0;
@@ -56,40 +51,31 @@ function loadStays() {
         snapshot.forEach(doc => {
             const stay = doc.data();
 
-            // --- FILTERING LOGIC ---
-            
-            // A. State Filter
+            // 1. State Filter
             if (isMizoramPage) {
-                // On Mizoram pages, ONLY show properties marked 'mizoram'
                 if (stay.state !== 'mizoram') return; 
             } else {
-                // On Assam/Main pages, show everything EXCEPT 'mizoram' (Shows 'assam' and undefined/old listings)
                 if (stay.state === 'mizoram') return; 
             }
 
-            // B. Category Filter
+            // 2. Category Filter
             if (isPGPage) {
-                if (!stay.isPG) return; // If on PG page, skip non-PGs
+                if (!stay.isPG) return; 
             } else {
-                if (!stay.isShortStay) return; // If on Short Stay page, skip non-Short Stays
+                if (!stay.isShortStay) return; 
             }
 
             count++;
 
-            // --- DISPLAY LOGIC ---
             const displayPrice = isPGPage ? (stay.pgPrice || stay.price) : (stay.shortPrice || stay.price);
             const priceLabel = isPGPage ? "month" : "night";
             const imageUrl = processImageLink(stay.imageLink || stay.image || stay.stayImage || "");
 
-            // C. FOOD BADGE LOGIC (SMART FIX)
-            // Logic: Show badge if:
-            // 1. It is NOT a PG page (Short stay only)
-            // 2. AND (isFoodIncluded is TRUE OR isFoodIncluded is UNDEFINED/MISSING)
-            // This ensures old listings (where the field is missing) default to showing the badge.
+            // --- FOOD BADGE LOGIC (SIMPLIFIED) ---
+            // If it's NOT a PG Page AND 'isFoodIncluded' is NOT explicitly false
+            // This means: True = Show, Undefined (Old Listings) = Show, False = Hide
             let foodBadgeHTML = '';
-            const showFoodBadge = !isPGPage && (stay.isFoodIncluded === true || typeof stay.isFoodIncluded === 'undefined');
-
-            if (showFoodBadge) {
+            if (!isPGPage && stay.isFoodIncluded !== false) {
                 foodBadgeHTML = `
                     <div style="
                         position: absolute;
@@ -110,7 +96,6 @@ function loadStays() {
                     </div>`;
             }
 
-            // D. Card Construction
             const card = document.createElement('div');
             card.className = 'stay-card scale-in';
             card.innerHTML = `
@@ -137,7 +122,7 @@ function loadStays() {
             stayGrid.innerHTML = `<p style="text-align:center; width:100%; color:#888; padding: 40px 0;">No listings found here yet.</p>`;
         }
 
-        // --- URL FILTER SYNC (From Home Page Search) ---
+        // Global Search Sync
         const urlParams = new URLSearchParams(window.location.search);
         const autoFilter = urlParams.get('filter');
         if (autoFilter) {
@@ -150,7 +135,6 @@ function loadStays() {
     });
 }
 
-// --- LOCAL SEARCH FUNCTION ---
 function filterStays() {
     const searchInput = document.getElementById('searchInput');
     if (!searchInput) return;
@@ -170,7 +154,6 @@ function filterStays() {
     }
 }
 
-// Initialization
 document.addEventListener('DOMContentLoaded', () => {
     loadStays();
     const searchInp = document.getElementById('searchInput');
@@ -180,14 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- BOOKING MODAL LOGIC ---
 function openBookingModal(location) {
     const modal = document.getElementById('bookingModal');
     const selectedLocInput = document.getElementById('selectedLocation');
     const modalTitle = document.getElementById('modalTitle');
     
     if (selectedLocInput) selectedLocInput.value = location;
-    const isPG = window.location.pathname.includes('pg.html') || window.location.pathname.includes('mizoram-pg.html');
+    const isPG = window.location.pathname.includes('pg');
     
     if (modalTitle) modalTitle.innerText = `Booking ${isPG ? 'PG' : 'Short Stay'} for ${location}`;
     if (modal) modal.style.display = 'block';
@@ -203,7 +185,6 @@ window.onclick = function(event) {
     if (event.target == modal) modal.style.display = "none";
 }
 
-// --- FORM SUBMISSION ---
 const bookingForm = document.getElementById('bookingForm');
 if (bookingForm) {
     bookingForm.addEventListener('submit', async (e) => {
@@ -212,7 +193,7 @@ if (bookingForm) {
         btn.innerText = "Processing...";
         btn.disabled = true;
 
-        const isPG = window.location.pathname.includes('pg.html') || window.location.pathname.includes('mizoram-pg.html');
+        const isPG = window.location.pathname.includes('pg');
         const location = document.getElementById('selectedLocation').value;
         const name = document.getElementById('userName').value;
         const gender = document.getElementById('userGender').value;
