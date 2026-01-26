@@ -39,9 +39,8 @@ function loadStays() {
 
     stayGrid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Loading verified listings...</p>';
 
-    // Robust Page Detection (Checks for 'pg' anywhere in the URL)
     const currentPath = window.location.pathname.toLowerCase();
-    const isPGPage = currentPath.includes('pg'); // Covers pg.html, mizoram-pg.html, /pg
+    const isPGPage = currentPath.includes('pg'); 
     const isMizoramPage = currentPath.includes('mizoram');
 
     db.collection('listed_stays').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
@@ -71,9 +70,8 @@ function loadStays() {
             const priceLabel = isPGPage ? "month" : "night";
             const imageUrl = processImageLink(stay.imageLink || stay.image || stay.stayImage || "");
 
-            // --- FOOD BADGE LOGIC (SIMPLIFIED) ---
+            // --- FOOD BADGE LOGIC ---
             // If it's NOT a PG Page AND 'isFoodIncluded' is NOT explicitly false
-            // This means: True = Show, Undefined (Old Listings) = Show, False = Hide
             let foodBadgeHTML = '';
             if (!isPGPage && stay.isFoodIncluded !== false) {
                 foodBadgeHTML = `
@@ -122,7 +120,6 @@ function loadStays() {
             stayGrid.innerHTML = `<p style="text-align:center; width:100%; color:#888; padding: 40px 0;">No listings found here yet.</p>`;
         }
 
-        // Global Search Sync
         const urlParams = new URLSearchParams(window.location.search);
         const autoFilter = urlParams.get('filter');
         if (autoFilter) {
