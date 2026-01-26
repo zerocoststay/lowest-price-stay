@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minstay | Secure Founder Panel</title>
-
+    
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -18,7 +18,7 @@
         }
 
         body { background-color: #f7f9fc; min-height: 100vh; display: flex; flex-direction: column; }
-
+        
         #adminDashboard, #loginGate { display: none; width: 100%; }
 
         /* Login Centering */
@@ -40,15 +40,11 @@
         /* Form Styling */
         form label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--dark); }
         form input, form select { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; outline: none; }
-
+        
         .type-selector { background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
         .check-group { display: flex; gap: 20px; }
         .check-item { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600; font-size: 14px; }
         .check-item input { width: 18px; height: 18px; margin: 0; accent-color: var(--primary); }
-
-        /* Special Style for Food Checkbox */
-        .food-check { margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ddd; }
-        .food-check label { color: #27ae60; } 
 
         .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .price-section { display: none; }
@@ -58,7 +54,7 @@
         .tab-btn-group { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
         .tab-btn { padding: 8px 18px; border-radius: 50px; border: 1px solid #eee; background: #fff; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.3s; }
         .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-
+        
         .property-list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f8f9fa; }
         .property-list-item:last-child { border-bottom: none; }
         .btn-delete { color: var(--danger); background: none; border: none; font-weight: 700; cursor: pointer; font-size: 13px; }
@@ -98,7 +94,7 @@
         </nav>
 
         <div class="admin-content-wrap">
-
+            
             <div class="admin-card">
                 <div class="section-header">
                     <h3><i class="fas fa-plus-circle"></i> List New Property</h3>
@@ -131,9 +127,9 @@
                             <label>Nightly Rate (₹)</label>
                             <input type="number" id="shortPrice" placeholder="per night">
                             
-                            <div class="food-check">
-                                <label class="check-item">
-                                    <input type="checkbox" id="checkFood"> 🥗 Food Included? (Short Stay Only)
+                            <div style="margin-top: 15px; padding: 10px; background: #e6f7ef; border-radius: 8px; border: 1px solid #25d366;">
+                                <label class="check-item" style="margin-bottom: 0; color: #047857;">
+                                    <input type="checkbox" id="checkFood"> <strong>Include "Food Included" Badge?</strong>
                                 </label>
                             </div>
                         </div>
@@ -143,7 +139,7 @@
                         </div>
                     </div>
 
-                    <label>Image Link (Direct URL)</label>
+                    <label style="margin-top: 20px;">Image Link (Direct URL)</label>
                     <input type="text" id="stayImage" placeholder="Paste property image URL" required>
 
                     <button type="submit" class="btn-book" style="width: 100%; padding: 16px; font-size: 1rem;">Publish to Platform</button>
@@ -248,19 +244,15 @@
                 snap.forEach(doc => {
                     const p = doc.data();
                     const price = type === 'short' ? p.shortPrice : p.pgPrice;
-                    
-                    // Display food status in list
-                    const foodBadge = (type === 'short' && p.isFoodIncluded) 
-                        ? '<span style="color:#27ae60; font-size:11px; font-weight:700;">🥗 Food Incl.</span>' 
-                        : '';
+                    // Logic to show Food Included label in list if applicable
+                    let foodLabel = (type === 'short' && p.isFoodIncluded) ? '<span style="color:#27ae60; font-size:10px; font-weight:800;">[FOOD INCLUDED]</span> ' : '';
 
                     container.innerHTML += `
                         <div class="property-list-item">
                             <div>
-                                <strong style="display:block; font-size:14px;">${p.location}</strong>
+                                <strong style="display:block; font-size:14px;">${foodLabel}${p.location}</strong>
                                 <small style="color:var(--gray); text-transform: uppercase; font-size: 10px;">State: ${p.state || 'Generic'}</small><br>
                                 <small style="color:var(--primary); font-weight:700;">₹${price} / ${type === 'short' ? 'night' : 'month'}</small>
-                                ${foodBadge}
                             </div>
                             <button class="btn-delete" onclick="deleteProperty('${doc.id}')">Remove</button>
                         </div>`;
@@ -279,7 +271,7 @@
             const isShort = document.getElementById('checkShort').checked;
             const isPG = document.getElementById('checkPG').checked;
             const state = document.getElementById('stayState').value;
-            // Get Food status (Only applies if Short stay is checked)
+            // Get Food status only if short stay is selected
             const isFoodIncluded = isShort ? document.getElementById('checkFood').checked : false;
 
             if(!isShort && !isPG) return alert("Select at least one category!");
@@ -292,14 +284,16 @@
                     imageLink: document.getElementById('stayImage').value,
                     isShortStay: isShort,
                     isPG: isPG,
-                    isFoodIncluded: isFoodIncluded, // Saving food status
                     shortPrice: isShort ? document.getElementById('shortPrice').value : null,
                     pgPrice: isPG ? document.getElementById('pgPrice').value : null,
+                    isFoodIncluded: isFoodIncluded, // Save to database
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 alert("Successfully listed for " + state);
                 document.getElementById('addStayForm').reset();
                 toggleInputs();
+                // Reset checkbox manually
+                document.getElementById('checkFood').checked = false;
             } catch (err) { alert(err.message); }
         });
 
