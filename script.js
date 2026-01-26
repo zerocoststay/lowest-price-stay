@@ -81,10 +81,15 @@ function loadStays() {
             const priceLabel = isPGPage ? "month" : "night";
             const imageUrl = processImageLink(stay.imageLink || stay.image || stay.stayImage || "");
 
-            // C. FOOD BADGE LOGIC 
-            // Only show on Short Stay pages AND if the database says true
+            // C. FOOD BADGE LOGIC (SMART FIX)
+            // Logic: Show badge if:
+            // 1. It is NOT a PG page (Short stay only)
+            // 2. AND (isFoodIncluded is TRUE OR isFoodIncluded is UNDEFINED/MISSING)
+            // This ensures old listings (where the field is missing) default to showing the badge.
             let foodBadgeHTML = '';
-            if (!isPGPage && stay.isFoodIncluded === true) {
+            const showFoodBadge = !isPGPage && (stay.isFoodIncluded === true || typeof stay.isFoodIncluded === 'undefined');
+
+            if (showFoodBadge) {
                 foodBadgeHTML = `
                     <div style="
                         position: absolute;
