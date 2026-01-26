@@ -36,49 +36,55 @@ function processImageLink(url) {
     return url; 
 }
 
-// --- LOAD STAYS (Optimized for existing and new data) ---
+// --- LOAD STAYS ---
 function loadStays() {
     const stayGrid = document.getElementById('stayGrid');
     if (!stayGrid) return;
 
     stayGrid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Loading verified listings...</p>';
 
-    // Detect Page Category
-    const isPGPage = window.location.pathname.includes('pg.html') || window.location.pathname.includes('mizoram-pg.html');
-    const isMizoramPage = window.location.pathname.includes('mizoram');
+    // 1. Detect Context (Page & State)
+    const currentPath = window.location.pathname;
+    const isPGPage = currentPath.includes('pg.html') || currentPath.includes('mizoram-pg.html');
+    const isMizoramPage = currentPath.includes('mizoram');
 
-    // Fetch all stays and filter in the app to prevent "missing field" errors
-    db.collection('listed_stays').onSnapshot(snapshot => {
+    // 2. Fetch all listings
+    db.collection('listed_stays').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
         stayGrid.innerHTML = '';
         let count = 0;
 
         snapshot.forEach(doc => {
             const stay = doc.data();
 
-            // 1. Logic for Mizoram Pages
+            // --- FILTERING LOGIC ---
+            
+            // A. State Filter
             if (isMizoramPage) {
-                if (stay.state !== 'mizoram') return; // Strictly only show Mizoram
-            } 
-            // 2. Logic for Assam / Main Pages
-            else {
-                if (stay.state === 'mizoram') return; // Show everything EXCEPT Mizoram
+                // On Mizoram pages, ONLY show properties marked 'mizoram'
+                if (stay.state !== 'mizoram') return; 
+            } else {
+                // On Assam/Main pages, show everything EXCEPT 'mizoram' (Shows 'assam' and undefined/old listings)
+                if (stay.state === 'mizoram') return; 
             }
 
-            // 3. Category Logic
+            // B. Category Filter
             if (isPGPage) {
-                if (!stay.isPG) return; // Only show PG
+                if (!stay.isPG) return; // If on PG page, skip non-PGs
             } else {
-                if (!stay.isShortStay) return; // Only show Short Stay
+                if (!stay.isShortStay) return; // If on Short Stay page, skip non-Short Stays
             }
 
             count++;
+
+            // --- DISPLAY LOGIC ---
             const displayPrice = isPGPage ? (stay.pgPrice || stay.price) : (stay.shortPrice || stay.price);
             const priceLabel = isPGPage ? "month" : "night";
             const imageUrl = processImageLink(stay.imageLink || stay.image || stay.stayImage || "");
 
-            // 4. FOOD BADGE LOGIC (Only for Short Stays if checked in Admin)
+            // C. FOOD BADGE LOGIC 
+            // Only show on Short Stay pages AND if the database says true
             let foodBadgeHTML = '';
-            if (!isPGPage && stay.isFoodIncluded) {
+            if (!isPGPage && stay.isFoodIncluded === true) {
                 foodBadgeHTML = `
                     <div style="
                         position: absolute;
@@ -91,17 +97,19 @@ function loadStays() {
                         font-size: 0.75rem;
                         font-weight: 700;
                         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-                        z-index: 2;
+                        z-index: 10;
                         letter-spacing: 0.5px;
-                        text-transform: uppercase;">
+                        text-transform: uppercase;
+                        pointer-events: none;">
                         Food Included
                     </div>`;
             }
 
+            // D. Card Construction
             const card = document.createElement('div');
             card.className = 'stay-card scale-in';
             card.innerHTML = `
-                <div class="stay-img-container" style="position: relative;">
+                <div class="stay-img-container" style="position: relative; overflow: hidden;">
                     ${foodBadgeHTML}
                     <img src="${imageUrl}" 
                          alt="${stay.location}" 
@@ -124,7 +132,7 @@ function loadStays() {
             stayGrid.innerHTML = `<p style="text-align:center; width:100%; color:#888; padding: 40px 0;">No listings found here yet.</p>`;
         }
 
-        // --- GLOBAL SEARCH SYNC ---
+        // --- URL FILTER SYNC (From Home Page Search) ---
         const urlParams = new URLSearchParams(window.location.search);
         const autoFilter = urlParams.get('filter');
         if (autoFilter) {
@@ -137,7 +145,7 @@ function loadStays() {
     });
 }
 
-// --- SEARCH FILTER FUNCTION ---
+// --- LOCAL SEARCH FUNCTION ---
 function filterStays() {
     const searchInput = document.getElementById('searchInput');
     if (!searchInput) return;
@@ -157,7 +165,7 @@ function filterStays() {
     }
 }
 
-// Attach Event Listeners
+// Initialization
 document.addEventListener('DOMContentLoaded', () => {
     loadStays();
     const searchInp = document.getElementById('searchInput');
@@ -167,14 +175,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- MODAL & BOOKING LOGIC ---
+// --- BOOKING MODAL LOGIC ---
 function openBookingModal(location) {
     const modal = document.getElementById('bookingModal');
     const selectedLocInput = document.getElementById('selectedLocation');
     const modalTitle = document.getElementById('modalTitle');
     
     if (selectedLocInput) selectedLocInput.value = location;
-    const isPG = window.location.pathname.includes('pg.html');
+    const isPG = window.location.pathname.includes('pg.html') || window.location.pathname.includes('mizoram-pg.html');
+    
     if (modalTitle) modalTitle.innerText = `Booking ${isPG ? 'PG' : 'Short Stay'} for ${location}`;
     if (modal) modal.style.display = 'block';
 }
@@ -189,6 +198,7 @@ window.onclick = function(event) {
     if (event.target == modal) modal.style.display = "none";
 }
 
+// --- FORM SUBMISSION ---
 const bookingForm = document.getElementById('bookingForm');
 if (bookingForm) {
     bookingForm.addEventListener('submit', async (e) => {
@@ -197,7 +207,7 @@ if (bookingForm) {
         btn.innerText = "Processing...";
         btn.disabled = true;
 
-        const isPG = window.location.pathname.includes('pg.html');
+        const isPG = window.location.pathname.includes('pg.html') || window.location.pathname.includes('mizoram-pg.html');
         const location = document.getElementById('selectedLocation').value;
         const name = document.getElementById('userName').value;
         const gender = document.getElementById('userGender').value;
