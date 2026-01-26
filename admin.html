@@ -46,6 +46,10 @@
         .check-item { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600; font-size: 14px; }
         .check-item input { width: 18px; height: 18px; margin: 0; accent-color: var(--primary); }
 
+        /* Special Style for Food Checkbox */
+        .food-check { margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ddd; }
+        .food-check label { color: #27ae60; } 
+
         .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .price-section { display: none; }
         .price-section.active { display: block; }
@@ -126,6 +130,12 @@
                         <div id="shortPriceSection" class="price-section">
                             <label>Nightly Rate (₹)</label>
                             <input type="number" id="shortPrice" placeholder="per night">
+                            
+                            <div class="food-check">
+                                <label class="check-item">
+                                    <input type="checkbox" id="checkFood"> 🥗 Food Included? (Short Stay Only)
+                                </label>
+                            </div>
                         </div>
                         <div id="pgPriceSection" class="price-section">
                             <label>Monthly Rent (₹)</label>
@@ -238,12 +248,19 @@
                 snap.forEach(doc => {
                     const p = doc.data();
                     const price = type === 'short' ? p.shortPrice : p.pgPrice;
+                    
+                    // Display food status in list
+                    const foodBadge = (type === 'short' && p.isFoodIncluded) 
+                        ? '<span style="color:#27ae60; font-size:11px; font-weight:700;">🥗 Food Incl.</span>' 
+                        : '';
+
                     container.innerHTML += `
                         <div class="property-list-item">
                             <div>
                                 <strong style="display:block; font-size:14px;">${p.location}</strong>
                                 <small style="color:var(--gray); text-transform: uppercase; font-size: 10px;">State: ${p.state || 'Generic'}</small><br>
                                 <small style="color:var(--primary); font-weight:700;">₹${price} / ${type === 'short' ? 'night' : 'month'}</small>
+                                ${foodBadge}
                             </div>
                             <button class="btn-delete" onclick="deleteProperty('${doc.id}')">Remove</button>
                         </div>`;
@@ -262,6 +279,8 @@
             const isShort = document.getElementById('checkShort').checked;
             const isPG = document.getElementById('checkPG').checked;
             const state = document.getElementById('stayState').value;
+            // Get Food status (Only applies if Short stay is checked)
+            const isFoodIncluded = isShort ? document.getElementById('checkFood').checked : false;
 
             if(!isShort && !isPG) return alert("Select at least one category!");
             if(!state) return alert("Please select a state!");
@@ -273,6 +292,7 @@
                     imageLink: document.getElementById('stayImage').value,
                     isShortStay: isShort,
                     isPG: isPG,
+                    isFoodIncluded: isFoodIncluded, // Saving food status
                     shortPrice: isShort ? document.getElementById('shortPrice').value : null,
                     pgPrice: isPG ? document.getElementById('pgPrice').value : null,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
