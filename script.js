@@ -61,7 +61,7 @@ function loadStays() {
             } 
             // 2. Logic for Assam / Main Pages
             else {
-                if (stay.state === 'mizoram') return; // Show everything EXCEPT Mizoram (covers old Assam data)
+                if (stay.state === 'mizoram') return; // Show everything EXCEPT Mizoram
             }
 
             // 3. Category Logic
@@ -76,10 +76,33 @@ function loadStays() {
             const priceLabel = isPGPage ? "month" : "night";
             const imageUrl = processImageLink(stay.imageLink || stay.image || stay.stayImage || "");
 
+            // 4. FOOD BADGE LOGIC (Only for Short Stays if checked in Admin)
+            let foodBadgeHTML = '';
+            if (!isPGPage && stay.isFoodIncluded) {
+                foodBadgeHTML = `
+                    <div style="
+                        position: absolute;
+                        top: 12px;
+                        left: 12px;
+                        background: #27ae60;
+                        color: white;
+                        padding: 5px 12px;
+                        border-radius: 20px;
+                        font-size: 0.75rem;
+                        font-weight: 700;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                        z-index: 2;
+                        letter-spacing: 0.5px;
+                        text-transform: uppercase;">
+                        Food Included
+                    </div>`;
+            }
+
             const card = document.createElement('div');
             card.className = 'stay-card scale-in';
             card.innerHTML = `
-                <div class="stay-img-container">
+                <div class="stay-img-container" style="position: relative;">
+                    ${foodBadgeHTML}
                     <img src="${imageUrl}" 
                          alt="${stay.location}" 
                          class="stay-img" 
@@ -118,7 +141,7 @@ function loadStays() {
 function filterStays() {
     const searchInput = document.getElementById('searchInput');
     if (!searchInput) return;
-
+    
     const filter = searchInput.value.toLowerCase().trim();
     const cards = document.getElementsByClassName('stay-card');
 
@@ -149,7 +172,7 @@ function openBookingModal(location) {
     const modal = document.getElementById('bookingModal');
     const selectedLocInput = document.getElementById('selectedLocation');
     const modalTitle = document.getElementById('modalTitle');
-
+    
     if (selectedLocInput) selectedLocInput.value = location;
     const isPG = window.location.pathname.includes('pg.html');
     if (modalTitle) modalTitle.innerText = `Booking ${isPG ? 'PG' : 'Short Stay'} for ${location}`;
