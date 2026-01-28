@@ -35,18 +35,45 @@
             }
         }
 
+        /* --- VOLUME TOGGLE BUTTON STYLING --- */
+        .volume-toggle {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            z-index: 20; /* Above the overlay */
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .volume-toggle:hover {
+            background: white;
+            color: #000;
+            transform: scale(1.1);
+        }
+
         /* --- NEW PROMO POSTER SECTION STYLING --- */
         .promo-poster-section {
             padding: 40px 5%;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Two columns for desktop */
+            grid-template-columns: 1fr 1fr; 
             gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .poster-box {
-            border-radius: 16px; /* Rounded Corners */
+            border-radius: 16px; 
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
@@ -66,7 +93,7 @@
 
         @media (max-width: 768px) {
             .promo-poster-section {
-                grid-template-columns: 1fr; /* Single column for mobile */
+                grid-template-columns: 1fr; 
                 padding: 30px 20px;
             }
         }
@@ -219,9 +246,13 @@
     </nav>
 
     <header class="zcs-hero">
-        <video autoplay muted loop playsinline class="hero-video-bg">
+        <video autoplay muted loop playsinline class="hero-video-bg" id="heroVideo">
             <source src="https://raw.githubusercontent.com/zerocoststay/lowest-price-stay/main/100415-video-720%20(1)%20-%20Trim.mp4" type="video/mp4">
         </video>
+
+        <button class="volume-toggle" onclick="toggleSound()" aria-label="Toggle Sound">
+            <i class="fas fa-volume-mute" id="volIcon"></i>
+        </button>
 
         <div class="hero-content">
             <h1>India's Most Affordable<br>Stay Provider</h1>
@@ -444,6 +475,22 @@
                 window.location.href = targetPage + "?filter=" + encodeURIComponent(area);
             } else {
                 window.location.href = targetPage;
+            }
+        }
+
+        // --- VIDEO SOUND TOGGLE LOGIC ---
+        function toggleSound() {
+            const video = document.getElementById('heroVideo');
+            const icon = document.getElementById('volIcon');
+            
+            if (video.muted) {
+                video.muted = false;
+                icon.classList.remove('fa-volume-mute');
+                icon.classList.add('fa-volume-up');
+            } else {
+                video.muted = true;
+                icon.classList.remove('fa-volume-up');
+                icon.classList.add('fa-volume-mute');
             }
         }
 
