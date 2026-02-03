@@ -31,7 +31,20 @@
             justify-content: center; align-items: center;
             transition: opacity 0.8s ease;
         }
-        .loader-text { font-family: 'Cinzel', serif; font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; letter-spacing: 5px; }
+        
+        .loader-logo {
+            height: 80px; /* Larger logo for the loading screen */
+            width: auto;
+            margin-bottom: 25px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
         .progress-bar { width: 250px; height: 3px; background: #222; border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.2s; box-shadow: 0 0 15px var(--primary); }
 
@@ -56,7 +69,7 @@
         .header.hidden { transform: translateY(-100%); opacity: 0; }
 
         .logo-container { display: flex; align-items: center; }
-        .logo-container img { height: 60px; width: auto; } /* Increased height for name-logo visibility */
+        .logo-container img { height: 60px; width: auto; }
 
         .btn-order {
             padding: 12px 30px;
@@ -134,7 +147,7 @@
 <body>
 
     <div id="loader">
-        <div class="loader-text">BHUT</div>
+        <img src="images/logo.png" alt="BHUT Logo" class="loader-logo" onerror="this.style.display='none'">
         <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
         <p style="margin-top: 15px; color: #444; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;" id="loader-status">Igniting the fire...</p>
     </div>
