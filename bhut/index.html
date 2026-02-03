@@ -47,7 +47,7 @@
         /* --- HEADER --- */
         .header {
             position: fixed; top: 0; left: 0; width: 100%;
-            padding: 25px 5%;
+            padding: 20px 5%;
             display: flex; justify-content: space-between; align-items: center;
             z-index: 100;
             background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
@@ -55,12 +55,15 @@
         }
         .header.hidden { transform: translateY(-100%); opacity: 0; }
 
-        .logo {
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-container img { height: 50px; width: auto; }
+        .logo-text {
             font-family: 'Cinzel', serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 3px;
+            font-weight: 700;
         }
 
         .btn-order {
@@ -131,7 +134,10 @@
     </div>
 
     <header class="header" id="main-header">
-        <div class="logo">BHUT.</div>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="BHUT Logo" onerror="this.style.display='none'">
+            <div class="logo-text">BHUT.</div>
+        </div>
         <a href="#booking" class="btn-order">Order Now</a>
     </header>
 
@@ -184,7 +190,6 @@
 
     <script>
         const frameCount = 274;
-        // Correct path for images folder inside bhut folder
         const imgPath = 'images/ezgif-frame-'; 
         const imgExt = '.jpg'; 
         
@@ -197,16 +202,13 @@
         const images = [];
         let imagesLoaded = 0;
 
-        // --- PRELOAD LOGIC ---
         function preload() {
-            // Fail-safe: Hide loader if images aren't found in 6 seconds
             setTimeout(() => {
                 if (imagesLoaded < 1) hideLoader();
             }, 6000);
 
             for (let i = 1; i <= frameCount; i++) {
                 const img = new Image();
-                // Padd numbers to 001, 010, 100 etc.
                 const paddedNum = i.toString().padStart(3, '0');
                 img.src = `${imgPath}${paddedNum}${imgExt}`;
                 
@@ -215,13 +217,11 @@
                     let p = (imagesLoaded / frameCount) * 100;
                     progress.style.width = p + "%";
                     
-                    if (imagesLoaded === 1) render(0); // Show first frame immediately
+                    if (imagesLoaded === 1) render(0); 
                     if (imagesLoaded >= frameCount) hideLoader();
                 };
 
-                img.onerror = () => {
-                    imagesLoaded++; // Keep progress moving
-                };
+                img.onerror = () => { imagesLoaded++; };
                 images.push(img);
             }
         }
@@ -231,7 +231,6 @@
             setTimeout(() => loader.style.display = "none", 800);
         }
 
-        // --- RENDER LOGIC ---
         function render(index) {
             const img = images[index];
             if (!img || !img.complete) return;
@@ -259,7 +258,6 @@
             context.drawImage(img, x, y, w, h);
         }
 
-        // --- SCROLL LOGIC ---
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset;
             const maxScroll = document.getElementById('scroll-container').offsetHeight - window.innerHeight;
@@ -270,7 +268,6 @@
                 requestAnimationFrame(() => render(frameIndex));
             }
 
-            // Header visibility logic (till 100 images)
             if (frameIndex > 100) {
                 header.classList.add("hidden");
             } else {
@@ -280,13 +277,12 @@
 
         window.addEventListener('resize', () => render(0));
 
-        // WhatsApp Order Logic
         function handleOrder(e) {
             e.preventDefault();
             const name = document.getElementById('custName').value;
-            const qty = document.getElementById('custQty').value;
+            const qty = document.getElementById('custQty').options[document.getElementById('custQty').selectedIndex].text;
             const addr = document.getElementById('custAddr').value;
-            const msg = `Hi BHUT, I want to order Ghost Chilli Gold:%0AQuantity: ${qty} Jar(s)%0AName: ${name}%0AAddress: ${addr}`;
+            const msg = `Hi BHUT, I want to order Ghost Chilli Gold:%0AQuantity: ${qty}%0AName: ${name}%0AAddress: ${addr}`;
             window.open(`https://wa.me/919395346545?text=${msg}`, '_blank');
         }
 
