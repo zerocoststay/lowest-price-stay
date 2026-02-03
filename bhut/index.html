@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BHUT | The World's Hottest Pickle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #ff3300; /* Ghost Chilli Red */
+            --dark: #050505;
+            --text: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden; /* Hide horizontal scroll */
+        }
+
+        /* --- LOADER --- */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: opacity 0.5s;
+        }
+        .loader-text { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+        .progress-bar { width: 200px; height: 2px; background: #333; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.1s; }
+
+        /* --- CANVAS (The Animation) --- */
+        canvas {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100vw; min-height: 100vh;
+            width: auto; height: auto;
+            z-index: -1;
+            object-fit: cover;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+        
+        .header.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        
+        .logo img { height: 40px; width: auto; }
+
+        .btn-order {
+            padding: 10px 25px;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn-order:hover { background: var(--primary); color: #fff; }
+
+        /* --- SCROLL SPACER --- */
+        /* This determines how "long" the user has to scroll to finish the animation */
+        #scroll-container {
+            height: 600vh; /* 6 times the viewport height */
+        }
+
+        /* --- CONTENT SECTIONS --- */
+        .content-trigger {
+            height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        .content-trigger.active { opacity: 1; }
+        
+        .hero-text {
+            text-align: center;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+        }
+        .hero-text h1 { font-family: 'Cinzel', serif; font-size: 4rem; color: var(--primary); margin-bottom: 10px; }
+        .hero-text p { font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* --- BOOKING SECTION --- */
+        .booking-section {
+            position: relative;
+            background: #050505;
+            padding: 80px 5%;
+            min-height: 80vh;
+            display: flex; flex-direction: column; align-items: center;
+            border-top: 1px solid #222;
+            z-index: 10;
+        }
+
+        .product-card {
+            background: #111;
+            border: 1px solid #333;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .product-title { font-family: 'Cinzel', serif; font-size: 2rem; margin-bottom: 10px; }
+        .product-price { font-size: 1.5rem; color: var(--primary); margin-bottom: 30px; font-weight: bold; }
+        
+        form input, form select {
+            width: 100%; padding: 15px; margin-bottom: 15px;
+            background: #000; border: 1px solid #333; color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        form button {
+            width: 100%; padding: 15px;
+            background: var(--primary); border: none; color: #fff;
+            font-weight: bold; text-transform: uppercase; cursor: pointer;
+            transition: 0.3s;
+        }
+        form button:hover { background: #d42b00; }
+
+        /* --- FOOTER --- */
+        .footer {
+            background: #000;
+            padding: 60px 5%;
+            border-top: 1px solid #222;
+            font-size: 0.9rem;
+            color: #888;
+            position: relative;
+            z-index: 10;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        .footer h3 { color: #fff; margin-bottom: 20px; font-family: 'Cinzel', serif; }
+        .footer ul { list-style: none; }
+        .footer li { margin-bottom: 10px; }
+        .footer a { color: #888; text-decoration: none; transition: 0.3s; }
+        .footer a:hover { color: var(--primary); }
+        .copyright { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #222; }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.5rem; }
+            .header { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-text">BHUT</div>
+        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+        <p style="margin-top: 10px; color: #666; font-size: 0.8rem;">Summoning the Heat...</p>
+    </div>
+
+    <header class="header" id="main-header">
+        <div class="logo">
+            <img src="images/logo.png" alt="BHUT Logo" onerror="this.style.display='none'">
+            BHUT.
+        </div>
+        <a href="#booking" class="btn-order">Pre-Order</a>
+    </header>
+
+    <canvas id="hero-lightpass"></canvas>
+
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;">
+        <div class="content-trigger active" id="intro-text">
+            <div class="hero-text">
+                <h1>1 Million SHU</h1>
+                <p>Respect the Heat</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="scroll-container"></div>
+
+    <section class="booking-section" id="booking">
+        <div class="product-card">
+            <h2 class="product-title">Ghost Chilli Pickle</h2>
+            <div class="product-price">₹499.00</div>
+            <p style="margin-bottom: 20px; color: #aaa;">Hand-picked Bhut Jolokia preserved in mustard oil and secret spices. Extreme heat warning.</p>
+            
+            <form id="orderForm">
+                <input type="text" placeholder="Full Name" required>
+                <input type="tel" placeholder="WhatsApp Number" required>
+                <select>
+                    <option>1 Jar (200g)</option>
+                    <option>2 Jars (Pack of 2)</option>
+                    <option>5 Jars (Family Pack)</option>
+                </select>
+                <input type="text" placeholder="Shipping Address" required>
+                <button type="submit">Confirm Order</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <h3>BHUT.</h3>
+                <p>Authentic Ghost Chilli products sourced directly from the farmers of North East India.</p>
+            </div>
+            <div>
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="#">Pickles</a></li>
+                    <li><a href="#">Sauces</a></li>
+                    <li><a href="#">Dried Chillies</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Track Order</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:support@minstay.in">support@bhut.in</a></li>
+                    <li><a href="#">+91 9395346545</a></li>
+                    <li>
+                        <i class="fab fa-instagram" style="margin-right: 10px;"></i>
+                        <i class="fab fa-facebook"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 BHUT Enterprises. A Minstay Initiative. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // --- CONFIGURATION ---
+        const frameCount = 274;
+        const imgPath = 'images/ezgif-frame-'; // Path prefix
+        const imgExt = '.jpg'; // Or .png
+        
+        // --- SETUP ---
+        const canvas = document.getElementById("hero-lightpass");
+        const context = canvas.getContext("2d");
+        const header = document.getElementById("main-header");
+        const loader = document.getElementById("loader");
+        const progress = document.getElementById("progress");
+        
+        const images = [];
+        const bhut = { frame: 0 };
+        let imagesLoaded = 0;
+
+        // 1. PRELOAD IMAGES
+        // Logic to handle 001, 010, 100 numbering format
+        const currentFrame = index => {
+            // Ezgif usually outputs 3 digits: 001, 002... 099, 100
+            const paddedIndex = (index + 1).toString().padStart(3, '0'); 
+            return `${imgPath}${paddedIndex}${imgExt}`;
+        };
+
+        for (let i = 0; i < frameCount; i++) {
+            const img = new Image();
+            img.src = currentFrame(i);
+            img.onload = () => {
+                imagesLoaded++;
+                const percent = (imagesLoaded / frameCount) * 100;
+                progress.style.width = percent + '%';
+                
+                if (imagesLoaded === frameCount) {
+                    setTimeout(() => {
+                        loader.style.opacity = 0;
+                        setTimeout(() => loader.style.display = 'none', 500);
+                        render(); // Initial Render
+                    }, 500);
+                }
+            };
+            images.push(img);
+        }
+
+        // 2. RESIZE CANVAS
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            render();
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // 3. RENDER IMAGE (Cover Logic)
+        function render() {
+            if (!images[bhut.frame]) return;
+            
+            const img = images[bhut.frame];
+            const canvasRatio = canvas.width / canvas.height;
+            const imgRatio = img.width / img.height;
+            
+            let drawWidth, drawHeight, offsetX, offsetY;
+
+            // Simulate object-fit: cover
+            if (canvasRatio > imgRatio) {
+                drawWidth = canvas.width;
+                drawHeight = canvas.width / imgRatio;
+                offsetX = 0;
+                offsetY = (canvas.height - drawHeight) / 2;
+            } else {
+                drawWidth = canvas.height * imgRatio;
+                drawHeight = canvas.height;
+                offsetX = (canvas.width - drawWidth) / 2;
+                offsetY = 0;
+            }
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+        }
+
+        // 4. SCROLL LISTENER
+        window.addEventListener('scroll', () => {  
+            const scrollTop = document.documentElement.scrollTop;
+            const maxScroll = document.getElementById('scroll-container').scrollHeight - window.innerHeight;
+            const scrollFraction = scrollTop / maxScroll;
+            
+            // Calculate Frame
+            const frameIndex = Math.min(
+                frameCount - 1,
+                Math.ceil(scrollFraction * frameCount)
+            );
+            
+            // Optimization: Only render if frame changed
+            if (bhut.frame !== frameIndex) {
+                bhut.frame = frameIndex;
+                requestAnimationFrame(render);
+            }
+
+            // HEADER LOGIC: Visible till frame 100
+            if (frameIndex > 100) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+
+            // TEXT LOGIC: Fade out intro text
+            const introText = document.getElementById('intro-text');
+            if (frameIndex > 50) {
+                introText.style.opacity = 0;
+            } else {
+                introText.style.opacity = 1;
+            }
+        });
+    </script>
+</body>
+</html>
