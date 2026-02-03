@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BHUT | The World's Hottest Pickle</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -76,7 +76,7 @@
         }
 
         /* --- SECTIONS --- */
-        #scroll-container { height: 700vh; }
+        #scroll-container { height: 800vh; }
 
         .booking-section {
             position: relative;
@@ -98,12 +98,12 @@
         }
 
         .product-title { font-family: 'Cinzel', serif; font-size: 2.5rem; color: #fff; margin-bottom: 10px; }
-        .product-price { font-size: 1.8rem; color: var(--primary); margin-bottom: 30px; }
+        .product-price { font-size: 1.8rem; color: var(--primary); margin-bottom: 30px; font-weight: 800; }
 
         form input, form select, form textarea {
             width: 100%; padding: 15px; margin-bottom: 15px;
             background: #000; border: 1px solid #333; color: #fff;
-            border-radius: 4px; outline: none;
+            border-radius: 4px; outline: none; font-family: 'Inter', sans-serif;
         }
 
         form button {
@@ -143,17 +143,17 @@
         <div class="product-card">
             <h2 class="product-title">Ghost Chilli Gold</h2>
             <div class="product-price">₹499.00</div>
-            <p style="color:#777; margin-bottom: 30px; line-height: 1.6;">The legendary Bhut Jolokia, fermented for 6 months in oak barrels with cold-pressed mustard oil. Not for the faint-hearted.</p>
+            <p style="color:#777; margin-bottom: 30px; line-height: 1.6;">The legendary Bhut Jolokia, fermented for 6 months with cold-pressed mustard oil. Extreme heat warning.</p>
             
-            <form id="orderForm">
-                <input type="text" placeholder="Full Name" required>
-                <input type="tel" placeholder="WhatsApp Number" required>
-                <select>
-                    <option>1 Jar (200g)</option>
-                    <option>2 Jars (Double Heat)</option>
-                    <option>5 Jars (Bulk Ghost)</option>
+            <form id="orderForm" onsubmit="handleOrder(event)">
+                <input type="text" id="custName" placeholder="Full Name" required>
+                <input type="tel" id="custPhone" placeholder="WhatsApp Number" required>
+                <select id="custQty">
+                    <option value="1">1 Jar (200g)</option>
+                    <option value="2">2 Jars (Double Heat)</option>
+                    <option value="5">5 Jars (Bulk Ghost)</option>
                 </select>
-                <textarea placeholder="Full Delivery Address" rows="4" required style="width: 100%; padding: 15px; background: #000; border: 1px solid #333; color: #fff; margin-bottom: 15px;"></textarea>
+                <textarea id="custAddr" placeholder="Full Delivery Address" rows="4" required></textarea>
                 <button type="submit">Complete Order</button>
             </form>
         </div>
@@ -163,7 +163,7 @@
         <div class="footer-grid">
             <div>
                 <h3>BHUT ENTERPRISE</h3>
-                <p>Northeast India's finest ghost chilli produce. From the farm to your door.</p>
+                <p>Northeast India's finest ghost chilli produce. Sourced directly from local farmers.</p>
             </div>
             <div>
                 <h3>Quick Links</h3>
@@ -184,30 +184,29 @@
 
     <script>
         const frameCount = 274;
-        const imgPath = 'images/ezgif-frame-';
-        const imgExt = '.jpg'; // Ensure this matches exactly (.jpg or .jpeg)
+        // Correct path for images folder inside bhut folder
+        const imgPath = 'images/ezgif-frame-'; 
+        const imgExt = '.jpg'; 
         
         const canvas = document.getElementById("hero-canvas");
         const context = canvas.getContext("2d");
         const progress = document.getElementById("progress");
         const loader = document.getElementById("loader");
-        const status = document.getElementById("loader-status");
+        const header = document.getElementById("main-header");
 
         const images = [];
         let imagesLoaded = 0;
 
         // --- PRELOAD LOGIC ---
         function preload() {
-            // Failsafe: If images take too long, hide loader anyway after 5 seconds
+            // Fail-safe: Hide loader if images aren't found in 6 seconds
             setTimeout(() => {
-                if (imagesLoaded < 10) {
-                    console.log("Loading taking too long. Bypassing...");
-                    hideLoader();
-                }
-            }, 5000);
+                if (imagesLoaded < 1) hideLoader();
+            }, 6000);
 
             for (let i = 1; i <= frameCount; i++) {
                 const img = new Image();
+                // Padd numbers to 001, 010, 100 etc.
                 const paddedNum = i.toString().padStart(3, '0');
                 img.src = `${imgPath}${paddedNum}${imgExt}`;
                 
@@ -216,16 +215,12 @@
                     let p = (imagesLoaded / frameCount) * 100;
                     progress.style.width = p + "%";
                     
-                    if (imagesLoaded === 1) render(0); // Draw first frame immediately
-                    
-                    if (imagesLoaded >= frameCount) {
-                        hideLoader();
-                    }
+                    if (imagesLoaded === 1) render(0); // Show first frame immediately
+                    if (imagesLoaded >= frameCount) hideLoader();
                 };
 
                 img.onerror = () => {
-                    imagesLoaded++; // Keep progress moving even if one fails
-                    console.error("Failed to load frame: " + paddedNum);
+                    imagesLoaded++; // Keep progress moving
                 };
                 images.push(img);
             }
@@ -264,7 +259,7 @@
             context.drawImage(img, x, y, w, h);
         }
 
-        // --- SCROLL ENGINE ---
+        // --- SCROLL LOGIC ---
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset;
             const maxScroll = document.getElementById('scroll-container').offsetHeight - window.innerHeight;
@@ -275,13 +270,25 @@
                 requestAnimationFrame(() => render(frameIndex));
             }
 
-            // Header disappearance
-            const header = document.getElementById("main-header");
-            if (frameIndex > 100) header.classList.add("hidden");
-            else header.classList.remove("hidden");
+            // Header visibility logic (till 100 images)
+            if (frameIndex > 100) {
+                header.classList.add("hidden");
+            } else {
+                header.classList.remove("hidden");
+            }
         });
 
         window.addEventListener('resize', () => render(0));
+
+        // WhatsApp Order Logic
+        function handleOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            const qty = document.getElementById('custQty').value;
+            const addr = document.getElementById('custAddr').value;
+            const msg = `Hi BHUT, I want to order Ghost Chilli Gold:%0AQuantity: ${qty} Jar(s)%0AName: ${name}%0AAddress: ${addr}`;
+            window.open(`https://wa.me/919395346545?text=${msg}`, '_blank');
+        }
 
         preload();
     </script>
