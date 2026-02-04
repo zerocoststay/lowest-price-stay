@@ -23,6 +23,72 @@
             overflow-x: hidden;
         }
 
+        /* --- SCROLL TEXT OVERLAYS (NEW) --- */
+        .scroll-text {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40%;
+            max-width: 600px;
+            padding: 20px;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none; /* Allows scrolling through text */
+            z-index: 5;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.9);
+        }
+
+        .scroll-text.visible {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+
+        .scroll-text.left {
+            left: 5%;
+            text-align: left;
+        }
+
+        .scroll-text.right {
+            right: 5%;
+            text-align: right;
+        }
+
+        /* Typography matching Footer */
+        .scroll-text h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            line-height: 1.1;
+            color: #fff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .scroll-text .highlight {
+            color: var(--primary);
+        }
+
+        .scroll-text h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-top: 10px;
+            letter-spacing: 3px;
+        }
+
+        .scroll-text p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ddd;
+            margin-top: 20px;
+        }
+
+        /* Mobile Adjustments for Text */
+        @media (max-width: 768px) {
+            .scroll-text { width: 90%; left: 5% !important; right: 5% !important; text-align: center !important; }
+            .scroll-text h2 { font-size: 2rem; }
+        }
+
         /* --- LOADER --- */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -33,7 +99,7 @@
         }
         
         .loader-logo {
-            height: 80px;
+            height: 80px; 
             width: auto;
             margin-bottom: 25px;
             animation: pulse 2s infinite ease-in-out;
@@ -90,74 +156,6 @@
             background: #ff4500;
             box-shadow: 0 0 20px rgba(255, 51, 0, 0.6);
             transform: scale(1.05);
-        }
-
-        /* --- SCROLL TEXT OVERLAYS --- */
-        .scroll-text {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40%;
-            max-width: 600px;
-            z-index: 50;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            pointer-events: none; /* Let clicks pass through */
-        }
-
-        .scroll-text.visible {
-            opacity: 1;
-        }
-
-        .left-align {
-            left: 8%;
-            text-align: left;
-        }
-
-        .right-align {
-            right: 8%;
-            text-align: right;
-        }
-
-        /* Using Footer Fonts */
-        .scroll-text h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 3rem;
-            color: var(--primary);
-            line-height: 1.2;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-        }
-
-        .scroll-text h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            color: #fff;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-        }
-
-        .scroll-text p {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            color: #ddd;
-            line-height: 1.6;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
-        }
-
-        .hero-subtext {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.5rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #fff;
-            margin-top: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .scroll-text { width: 90%; left: 5%; right: auto; text-align: center; }
-            .right-align { right: auto; left: 5%; text-align: center; }
-            .scroll-text h2 { font-size: 2rem; }
         }
 
         /* --- SECTIONS --- */
@@ -229,25 +227,22 @@
 
     <canvas id="hero-canvas"></canvas>
 
-    <div class="scroll-text left-align" id="text-1">
-        <h2>WORLD'S HOTTEST<br>GHOST CHILLI PICKLE</h2>
-        <div class="hero-subtext">Burn . Cry . Beg</div>
+    <div class="scroll-text left" id="text-1">
+        <h2>WORLD'S HOTTEST<br><span class="highlight">GHOST CHILLI PICKLE</span></h2>
+        <h3>Burn . Cry . Beg</h3>
     </div>
 
-    <div class="scroll-text left-align" id="text-2">
-        <h3>BHUT – An Ethnic Pickle with Fire</h3>
+    <div class="scroll-text left" id="text-2">
+        <h2>BHUT – An Ethnic Pickle with Fire</h2>
         <p>BHUT is a handcrafted pickle made from the legendary Bhut Jolokia, rooted in the ethnic food traditions of Northeast India. Bold, intense, and authentic, it delivers real heat without compromising on flavour or heritage.</p>
-        <br>
         <p>Made in small batches using traditional spices and natural oil, BHUT is slow-processed to preserve the chilli’s raw power, aroma, and texture — nothing artificial, nothing diluted.</p>
     </div>
 
-    <div class="scroll-text right-align" id="text-3">
-        <h3>Bhut Jolokia – The World’s Hottest Ghost Chilli</h3>
+    <div class="scroll-text right" id="text-3">
+        <h2>Bhut Jolokia – The World’s Hottest Ghost Chilli</h2>
         <p>Bhut Jolokia, or Ghost Chilli, originates from Northeast India and is known for crossing 1,000,000 Scoville Heat Units. Its heat builds slowly and lasts longer than most chillies, making it truly legendary.</p>
-        <br>
         <p>Grown in warm, humid regions, Bhut Jolokia is prized worldwide for its intensity and cultural significance, setting it apart from ordinary peppers.</p>
     </div>
-
 
     <div id="scroll-container"></div>
 
@@ -304,11 +299,6 @@
         const progress = document.getElementById("progress");
         const loader = document.getElementById("loader");
         const header = document.getElementById("main-header");
-        
-        // Text Elements
-        const text1 = document.getElementById("text-1");
-        const text2 = document.getElementById("text-2");
-        const text3 = document.getElementById("text-3");
 
         const images = [];
         let imagesLoaded = 0;
@@ -379,34 +369,33 @@
                 requestAnimationFrame(() => render(frameIndex));
             }
 
-            // --- HEADER VISIBILITY ---
+            // --- TEXT OVERLAY LOGIC ---
+            const t1 = document.getElementById('text-1');
+            const t2 = document.getElementById('text-2');
+            const t3 = document.getElementById('text-3');
+
+            // Reset
+            t1.classList.remove('visible');
+            t2.classList.remove('visible');
+            t3.classList.remove('visible');
+
+            // Logic: Show specific text based on frame ranges
+            if (frameIndex >= 1 && frameIndex <= 85) {
+                t1.classList.add('visible');
+            } 
+            else if (frameIndex >= 120 && frameIndex <= 170) {
+                t2.classList.add('visible');
+            }
+            else if (frameIndex >= 180 && frameIndex <= 225) {
+                t3.classList.add('visible');
+            }
+
+            // Header visibility (still disappears after 100 to clear view for text)
+            // Modified slightly: keep visible for Text 1, hide for Text 2 & 3
             if (frameIndex > 100) {
                 header.classList.add("hidden");
             } else {
                 header.classList.remove("hidden");
-            }
-
-            // --- TEXT VISIBILITY LOGIC ---
-            
-            // Text 1: Frames 1 to 85
-            if (frameIndex >= 1 && frameIndex <= 85) {
-                text1.classList.add("visible");
-            } else {
-                text1.classList.remove("visible");
-            }
-
-            // Text 2: Frames 120 to 170
-            if (frameIndex >= 120 && frameIndex <= 170) {
-                text2.classList.add("visible");
-            } else {
-                text2.classList.remove("visible");
-            }
-
-            // Text 3: Frames 180 to 210
-            if (frameIndex >= 180 && frameIndex <= 210) {
-                text3.classList.add("visible");
-            } else {
-                text3.classList.remove("visible");
             }
         });
 
