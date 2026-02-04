@@ -33,7 +33,7 @@
         }
         
         .loader-logo {
-            height: 80px; /* Larger logo for the loading screen */
+            height: 80px;
             width: auto;
             margin-bottom: 25px;
             animation: pulse 2s infinite ease-in-out;
@@ -90,6 +90,74 @@
             background: #ff4500;
             box-shadow: 0 0 20px rgba(255, 51, 0, 0.6);
             transform: scale(1.05);
+        }
+
+        /* --- SCROLL TEXT OVERLAYS --- */
+        .scroll-text {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40%;
+            max-width: 600px;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none; /* Let clicks pass through */
+        }
+
+        .scroll-text.visible {
+            opacity: 1;
+        }
+
+        .left-align {
+            left: 8%;
+            text-align: left;
+        }
+
+        .right-align {
+            right: 8%;
+            text-align: right;
+        }
+
+        /* Using Footer Fonts */
+        .scroll-text h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: var(--primary);
+            line-height: 1.2;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .scroll-text h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .scroll-text p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: #ddd;
+            line-height: 1.6;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .hero-subtext {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .scroll-text { width: 90%; left: 5%; right: auto; text-align: center; }
+            .right-align { right: auto; left: 5%; text-align: center; }
+            .scroll-text h2 { font-size: 2rem; }
         }
 
         /* --- SECTIONS --- */
@@ -161,6 +229,26 @@
 
     <canvas id="hero-canvas"></canvas>
 
+    <div class="scroll-text left-align" id="text-1">
+        <h2>WORLD'S HOTTEST<br>GHOST CHILLI PICKLE</h2>
+        <div class="hero-subtext">Burn . Cry . Beg</div>
+    </div>
+
+    <div class="scroll-text left-align" id="text-2">
+        <h3>BHUT – An Ethnic Pickle with Fire</h3>
+        <p>BHUT is a handcrafted pickle made from the legendary Bhut Jolokia, rooted in the ethnic food traditions of Northeast India. Bold, intense, and authentic, it delivers real heat without compromising on flavour or heritage.</p>
+        <br>
+        <p>Made in small batches using traditional spices and natural oil, BHUT is slow-processed to preserve the chilli’s raw power, aroma, and texture — nothing artificial, nothing diluted.</p>
+    </div>
+
+    <div class="scroll-text right-align" id="text-3">
+        <h3>Bhut Jolokia – The World’s Hottest Ghost Chilli</h3>
+        <p>Bhut Jolokia, or Ghost Chilli, originates from Northeast India and is known for crossing 1,000,000 Scoville Heat Units. Its heat builds slowly and lasts longer than most chillies, making it truly legendary.</p>
+        <br>
+        <p>Grown in warm, humid regions, Bhut Jolokia is prized worldwide for its intensity and cultural significance, setting it apart from ordinary peppers.</p>
+    </div>
+
+
     <div id="scroll-container"></div>
 
     <section class="booking-section" id="booking">
@@ -216,6 +304,11 @@
         const progress = document.getElementById("progress");
         const loader = document.getElementById("loader");
         const header = document.getElementById("main-header");
+        
+        // Text Elements
+        const text1 = document.getElementById("text-1");
+        const text2 = document.getElementById("text-2");
+        const text3 = document.getElementById("text-3");
 
         const images = [];
         let imagesLoaded = 0;
@@ -286,10 +379,34 @@
                 requestAnimationFrame(() => render(frameIndex));
             }
 
+            // --- HEADER VISIBILITY ---
             if (frameIndex > 100) {
                 header.classList.add("hidden");
             } else {
                 header.classList.remove("hidden");
+            }
+
+            // --- TEXT VISIBILITY LOGIC ---
+            
+            // Text 1: Frames 1 to 85
+            if (frameIndex >= 1 && frameIndex <= 85) {
+                text1.classList.add("visible");
+            } else {
+                text1.classList.remove("visible");
+            }
+
+            // Text 2: Frames 120 to 170
+            if (frameIndex >= 120 && frameIndex <= 170) {
+                text2.classList.add("visible");
+            } else {
+                text2.classList.remove("visible");
+            }
+
+            // Text 3: Frames 180 to 210
+            if (frameIndex >= 180 && frameIndex <= 210) {
+                text3.classList.add("visible");
+            } else {
+                text3.classList.remove("visible");
             }
         });
 
