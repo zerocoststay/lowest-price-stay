@@ -11,10 +11,9 @@
         :root {
             --primary: #ff3300;
             --fire2: #ff6600;
-            --fire3: #ffaa00;
+            --fire3: #ff4500; /* Replaced Yellow/Orange with Deep Orange */
             --dark: #050505;
             --text: #ffffff;
-            --gold: #daa520;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -101,33 +100,25 @@
             font-weight: 300; color: #fff; margin-top: 10px; text-transform: uppercase;
         }
 
-        /* --- MAIN CONTENT SECTION (Order + Info + Grid) --- */
+        /* --- MAIN CONTENT SECTION (Booking + Stats + NE) --- */
         #scroll-container { height: 800vh; }
         
-        .main-content-section {
+        .main-content {
             position: relative; 
-            background: var(--dark); /* Black Background */
+            background: var(--dark); /* Pure Black Background */
             padding: 100px 5%; 
             z-index: 10; 
             display: flex; 
-            flex-direction: column; /* Stack elements vertically */
+            flex-direction: column; 
             align-items: center;
-            border-bottom: 1px solid #111;
-            overflow: hidden;
+            gap: 150px; /* Space between the blocks inside */
         }
 
-        .ne-bg-pattern {
-            position: absolute; inset: 0; opacity: 0.045; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z' fill='none' stroke='%23fff' stroke-width='1'/%3E%3C/svg%3E");
-        }
-
-        /* 1. PRODUCT CARD (Unchanged) */
+        /* Product Card Styles (Unchanged) */
         .product-card {
             background: #0f0f0f; border: 1px solid #222; padding: 50px;
             max-width: 550px; width: 100%; text-align: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            margin-bottom: 150px; /* Space before next section */
-            position: relative; z-index: 2;
         }
         .product-title { font-family: 'Cinzel', serif; font-size: 2.5rem; color: #fff; margin-bottom: 10px; }
         .product-price { font-size: 1.8rem; color: var(--primary); margin-bottom: 30px; font-weight: 800; }
@@ -144,31 +135,31 @@
         }
         form button:hover { background: #d42b00; box-shadow: 0 0 15px rgba(255, 51, 0, 0.4); }
 
-        /* 2. HEAT STATS STYLES */
+        /* Titles for subsection */
         .section-title {
             text-align: center; font-family: 'Cinzel', cursive;
             font-size: clamp(2.2rem, 5.5vw, 3.6rem); letter-spacing: 4px;
             margin-bottom: 10px; color: #fff; text-shadow: 0 0 30px rgba(255,60,0,0.5);
-            position: relative; z-index: 2;
         }
         .section-sub {
             text-align: center; color: #777; letter-spacing: 3px;
             font-size: 0.88rem; text-transform: uppercase; margin-bottom: 56px;
-            font-family: 'Inter', sans-serif; position: relative; z-index: 2;
+            font-family: 'Inter', sans-serif;
         }
+
+        /* Heat Grid */
         .heat-row {
             display: flex; justify-content: center; gap: 32px;
-            flex-wrap: wrap; max-width: 1200px; width: 100%; margin: 0 auto 150px;
-            position: relative; z-index: 2;
+            flex-wrap: wrap; max-width: 1200px; width: 100%; margin: 0 auto;
         }
         .heat-card {
             flex: 1 1 250px; max-width: 280px;
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,68,0,0.13);
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
             border-radius: 2px; padding: 38px 22px; text-align: center;
             position: relative; overflow: hidden; transition: transform 0.4s, border-color 0.4s;
         }
         .heat-card:hover {
-            transform: translateY(-7px); border-color: rgba(255,102,0,0.4);
+            transform: translateY(-7px); border-color: rgba(255, 51, 0, 0.5);
         }
         .heat-card .hicon {
             font-size: 2.6rem; display: block; margin-bottom: 15px;
@@ -177,50 +168,51 @@
         @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
         
         .heat-card h3 {
-            font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
-            letter-spacing: 2px; color: var(--fire3); margin-bottom: 10px;
+            font-family: 'Cinzel', serif; font-size: 1.4rem;
+            letter-spacing: 2px; color: var(--primary); margin-bottom: 10px; font-weight: 700;
         }
         .heat-card p {
             color: #999; font-size: 0.95rem; line-height: 1.6; font-family: 'Inter', sans-serif;
         }
         .heat-card .bottom-glow {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
-            background: linear-gradient(90deg, transparent, var(--fire2), transparent);
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
             animation: glowPulse 2.2s ease-in-out infinite;
         }
         @keyframes glowPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
-        /* 3. NORTHEAST SOUL STYLES */
+        /* Marquee (No Ruling Lines, Red Theme) */
         .marquee-wrap {
-            overflow: hidden; white-space: nowrap; margin: 40px 0 60px; width: 100vw;
-            border-top: 1px solid rgba(218,165,32,0.2); border-bottom: 1px solid rgba(218,165,32,0.2);
-            background: linear-gradient(90deg, transparent, rgba(218,165,32,0.06), transparent);
-            padding: 24px 0; position: relative; z-index: 2;
+            overflow: hidden; white-space: nowrap; margin: 0 0 60px;
+            /* Removed Borders */
+            background: linear-gradient(90deg, transparent, rgba(255, 51, 0, 0.05), transparent);
+            padding: 24px 0; position: relative; z-index: 2; width: 100vw;
         }
         .marquee-inner { display: inline-flex; animation: marquee 30s linear infinite; gap: 0; }
-        .marquee-inner span { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 3px; color: var(--gold); opacity: 0.8; padding: 0 10px; }
-        .marquee-inner .dot { color: var(--fire2); padding: 0 6px; }
+        .marquee-inner span { font-family: 'Cinzel', sans-serif; font-size: 1.05rem; letter-spacing: 3px; color: #fff; opacity: 0.8; padding: 0 10px; }
+        .marquee-inner .dot { color: var(--primary); padding: 0 6px; }
         @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
+        /* Northeast Grid */
         .ne-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; max-width: 1200px; width: 100%; margin: 0 auto; position: relative; z-index: 2; }
         .ne-card {
             background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.07);
             border-radius: 20px; padding: 30px 20px; position: relative; overflow: hidden;
             transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
         }
-        .ne-card:hover { transform: translateY(-6px) scale(1.015); border-color: rgba(218,165,32,0.4); box-shadow: 0 8px 40px rgba(0,0,0,0.45); }
+        .ne-card:hover { transform: translateY(-6px) scale(1.015); border-color: rgba(255, 51, 0, 0.4); box-shadow: 0 8px 40px rgba(0,0,0,0.45); }
         .ne-card .c-glow { position: absolute; width: 90px; height: 90px; border-radius: 50%; filter: blur(35px); opacity: 0.22; pointer-events: none; }
         
-        .ne-card:nth-child(1) .c-glow{background:#4caf50;top:-15px;right:-15px}
-        .ne-card:nth-child(2) .c-glow{background:#ff9800;bottom:-15px;left:-15px}
-        .ne-card:nth-child(3) .c-glow{background:#2196f3;top:-15px;left:-15px}
-        .ne-card:nth-child(4) .c-glow{background:#e91e63;bottom:-15px;right:-15px}
-        .ne-card:nth-child(5) .c-glow{background:#9c27b0;top:-15px;right:-15px}
-        .ne-card:nth-child(6) .c-glow{background:#00bcd4;bottom:-15px;left:-15px}
-        .ne-card:nth-child(7) .c-glow{background:#ffeb3b;top:-15px;left:-15px}
+        .ne-card:nth-child(1) .c-glow{background:#ff3300;top:-15px;right:-15px}
+        .ne-card:nth-child(2) .c-glow{background:#ff5500;bottom:-15px;left:-15px}
+        .ne-card:nth-child(3) .c-glow{background:#cc2900;top:-15px;left:-15px}
+        .ne-card:nth-child(4) .c-glow{background:#ff4500;bottom:-15px;right:-15px}
+        .ne-card:nth-child(5) .c-glow{background:#ff2200;top:-15px;right:-15px}
+        .ne-card:nth-child(6) .c-glow{background:#e63900;bottom:-15px;left:-15px}
+        .ne-card:nth-child(7) .c-glow{background:#ff6600;top:-15px;left:-15px}
 
         .ne-card .ci { font-size: 2.2rem; display: block; margin-bottom: 8px; animation: bob 2.5s ease-in-out infinite; }
-        .ne-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 5px; }
+        .ne-card h3 { font-family: 'Cinzel', sans-serif; font-size: 1.25rem; letter-spacing: 2px; color: var(--primary); margin-bottom: 5px; font-weight: 700; }
         .ne-card p { color: #999; font-size: 0.9rem; line-height: 1.5; font-family: 'Inter', sans-serif; }
 
         /* --- FOOTER --- */
@@ -241,6 +233,7 @@
             .right-align { text-align: center; }
             .overlay-h { font-size: 1.8rem; margin-bottom: 15px; }
             .section-title { font-size: 2.2rem; }
+            .main-content { gap: 100px; }
         }
     </style>
 </head>
@@ -282,9 +275,8 @@
 
     <div id="scroll-container"></div>
 
-    <section class="main-content-section" id="booking">
-        <div class="ne-bg-pattern"></div>
-
+    <section class="main-content" id="booking">
+        
         <div class="product-card">
             <h2 class="product-title">Ghost Chilli Gold</h2>
             <div class="product-price">₹499.00</div>
@@ -303,56 +295,61 @@
             </form>
         </div>
 
-        <h2 class="section-title">Why BHUT Burns Different</h2>
-        <p class="section-sub">Forged in fire, born in the hills</p>
-        <div class="heat-row">
-            <div class="heat-card">
-                <span class="hicon">🔥</span>
-                <h3>1,000,000+ SHU</h3>
-                <p>One of the world's most fiery peppers — the Bhut Jolokia delivers unmatched, lingering heat that ignites your soul.</p>
-                <div class="bottom-glow"></div>
-            </div>
-            <div class="heat-card">
-                <span class="hicon">🏔️</span>
-                <h3>Northeast Origin</h3>
-                <p>Sourced directly from the misty hills of Assam & Nagaland — where the ghost chilli legend was born.</p>
-                <div class="bottom-glow"></div>
-            </div>
-            <div class="heat-card">
-                <span class="hicon">🫙</span>
-                <h3>Hand Crafted</h3>
-                <p>Small-batch, traditionally pickled using recipes passed down through generations of Northeast families.</p>
-                <div class="bottom-glow"></div>
-            </div>
-            <div class="heat-card">
-                <span class="hicon">🌿</span>
-                <h3>100% Natural</h3>
-                <p>No artificial colours or preservatives. Pure, raw, organic fire in every single jar we make.</p>
-                <div class="bottom-glow"></div>
-            </div>
-        </div>
-
-        <h2 class="section-title">The Soul of Northeast India</h2>
-        <p class="section-sub">Where BHUT was born — the land, the culture, the fire</p>
-        
-        <div class="marquee-wrap">
-            <div class="marquee-inner">
-                <span>🏔️ Nagaland <span class="dot">✦</span> Assam <span class="dot">✦</span> Meghalaya <span class="dot">✦</span> Manipur <span class="dot">✦</span> Mizoram <span class="dot">✦</span> Tripura <span class="dot">✦</span> Arunachal Pradesh <span class="dot">✦</span> Sikkim</span>
-                <span>🌶️ Ghost Chilli Capital <span class="dot">✦</span> Ancient Traditions <span class="dot">✦</span> Living Cultures <span class="dot">✦</span> Sacred Hills <span class="dot">✦</span> Spice Heritage <span class="dot">✦</span> Untamed Beauty</span>
-                <span>🏔️ Nagaland <span class="dot">✦</span> Assam <span class="dot">✦</span> Meghalaya <span class="dot">✦</span> Manipur <span class="dot">✦</span> Mizoram <span class="dot">✦</span> Tripura <span class="dot">✦</span> Arunachal Pradesh <span class="dot">✦</span> Sikkim</span>
-                <span>🌶️ Ghost Chilli Capital <span class="dot">✦</span> Ancient Traditions <span class="dot">✦</span> Living Cultures <span class="dot">✦</span> Sacred Hills <span class="dot">✦</span> Spice Heritage <span class="dot">✦</span> Untamed Beauty</span>
+        <div style="width: 100%;">
+            <h2 class="section-title">Why BHUT Burns Different</h2>
+            <p class="section-sub">Forged in fire, born in the hills</p>
+            <div class="heat-row">
+                <div class="heat-card">
+                    <span class="hicon">🔥</span>
+                    <h3>1,000,000+ SHU</h3>
+                    <p>One of the world's most fiery peppers — the Bhut Jolokia delivers unmatched, lingering heat that ignites your soul.</p>
+                    <div class="bottom-glow"></div>
+                </div>
+                <div class="heat-card">
+                    <span class="hicon">🏔️</span>
+                    <h3>Northeast Origin</h3>
+                    <p>Sourced directly from the misty hills of Assam & Nagaland — where the ghost chilli legend was born.</p>
+                    <div class="bottom-glow"></div>
+                </div>
+                <div class="heat-card">
+                    <span class="hicon">🫙</span>
+                    <h3>Hand Crafted</h3>
+                    <p>Small-batch, traditionally pickled using recipes passed down through generations of Northeast families.</p>
+                    <div class="bottom-glow"></div>
+                </div>
+                <div class="heat-card">
+                    <span class="hicon">🌿</span>
+                    <h3>100% Natural</h3>
+                    <p>No artificial colours or preservatives. Pure, raw, organic fire in every single jar we make.</p>
+                    <div class="bottom-glow"></div>
+                </div>
             </div>
         </div>
 
-        <div class="ne-grid">
-            <div class="ne-card"><div class="c-glow"></div><span class="ci">🏔️</span><h3>Nagaland</h3><p>The true birthplace of Bhut Jolokia. Naga tribes cultivated the ghost chilli for centuries in the misty highlands — woven into their identity.</p></div>
-            <div class="ne-card"><div class="c-glow"></div><span class="ci">🌊</span><h3>Assam</h3><p>Land of the Mighty Brahmaputra. Assam's fertile plains nurture the ghost chilli to peak potency — fire meets flavor every harvest.</p></div>
-            <div class="ne-card"><div class="c-glow"></div><span class="ci">🌧️</span><h3>Meghalaya</h3><p>The abode of clouds. Unique microclimates and ancient living root bridges symbolize Northeast's deep bond with nature.</p></div>
-            <div class="ne-card"><div class="c-glow"></div><span class="ci">💃</span><h3>Manipur</h3><p>Vibrant festivals and classical dance enrich every tradition here — including the ancient art of spice pickling.</p></div>
-            <div class="ne-card"><div class="c-glow"></div><span class="ci">🦜</span><h3>Mizoram</h3><p>The "Land of the Blue Mountains" — lush forests and serene landscapes cradle the ghost chilli in wild beauty.</p></div>
-            <div class="ne-card"><div class="c-glow"></div><span class="ci">🌸</span><h3>Tripura</h3><p>A fusion of Indian and Southeast Asian cultures with a deep love for bold, fiery flavors that BHUT honours.</p></div>
-            <div class="ne-card"><div class="c-glow"></div><span class="ci">🦋</span><h3>Arunachal Pradesh</h3><p>The "Land of the Dawn" — ancient tribes guard sacred forests and ancestral spice knowledge alive in every BHUT jar.</p></div>
+        <div style="width: 100%;">
+            <h2 class="section-title">The Soul of Northeast India</h2>
+            <p class="section-sub">Where BHUT was born — the land, the culture, the fire</p>
+            
+            <div class="marquee-wrap">
+                <div class="marquee-inner">
+                    <span>🏔️ Nagaland <span class="dot">✦</span> Assam <span class="dot">✦</span> Meghalaya <span class="dot">✦</span> Manipur <span class="dot">✦</span> Mizoram <span class="dot">✦</span> Tripura <span class="dot">✦</span> Arunachal Pradesh <span class="dot">✦</span> Sikkim</span>
+                    <span>🌶️ Ghost Chilli Capital <span class="dot">✦</span> Ancient Traditions <span class="dot">✦</span> Living Cultures <span class="dot">✦</span> Sacred Hills <span class="dot">✦</span> Spice Heritage <span class="dot">✦</span> Untamed Beauty</span>
+                    <span>🏔️ Nagaland <span class="dot">✦</span> Assam <span class="dot">✦</span> Meghalaya <span class="dot">✦</span> Manipur <span class="dot">✦</span> Mizoram <span class="dot">✦</span> Tripura <span class="dot">✦</span> Arunachal Pradesh <span class="dot">✦</span> Sikkim</span>
+                    <span>🌶️ Ghost Chilli Capital <span class="dot">✦</span> Ancient Traditions <span class="dot">✦</span> Living Cultures <span class="dot">✦</span> Sacred Hills <span class="dot">✦</span> Spice Heritage <span class="dot">✦</span> Untamed Beauty</span>
+                </div>
+            </div>
+
+            <div class="ne-grid">
+                <div class="ne-card"><div class="c-glow"></div><span class="ci">🏔️</span><h3>Nagaland</h3><p>The true birthplace of Bhut Jolokia. Naga tribes cultivated the ghost chilli for centuries in the misty highlands — woven into their identity.</p></div>
+                <div class="ne-card"><div class="c-glow"></div><span class="ci">🌊</span><h3>Assam</h3><p>Land of the Mighty Brahmaputra. Assam's fertile plains nurture the ghost chilli to peak potency — fire meets flavor every harvest.</p></div>
+                <div class="ne-card"><div class="c-glow"></div><span class="ci">🌧️</span><h3>Meghalaya</h3><p>The abode of clouds. Unique microclimates and ancient living root bridges symbolize Northeast's deep bond with nature.</p></div>
+                <div class="ne-card"><div class="c-glow"></div><span class="ci">💃</span><h3>Manipur</h3><p>Vibrant festivals and classical dance enrich every tradition here — including the ancient art of spice pickling.</p></div>
+                <div class="ne-card"><div class="c-glow"></div><span class="ci">🦜</span><h3>Mizoram</h3><p>The "Land of the Blue Mountains" — lush forests and serene landscapes cradle the ghost chilli in wild beauty.</p></div>
+                <div class="ne-card"><div class="c-glow"></div><span class="ci">🌸</span><h3>Tripura</h3><p>A fusion of Indian and Southeast Asian cultures with a deep love for bold, fiery flavors that BHUT honours.</p></div>
+                <div class="ne-card"><div class="c-glow"></div><span class="ci">🦋</span><h3>Arunachal Pradesh</h3><p>The "Land of the Dawn" — ancient tribes guard sacred forests and ancestral spice knowledge alive in every BHUT jar.</p></div>
+            </div>
         </div>
+
     </section>
 
     <footer class="footer">
