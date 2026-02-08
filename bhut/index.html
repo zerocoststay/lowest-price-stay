@@ -11,7 +11,7 @@
         :root {
             --primary: #ff3300;
             --fire2: #ff6600;
-            --fire3: #ff4500; /* Replaced Yellow/Orange with Deep Orange */
+            --fire3: #ff4500;
             --dark: #050505;
             --text: #ffffff;
         }
@@ -100,26 +100,41 @@
             font-weight: 300; color: #fff; margin-top: 10px; text-transform: uppercase;
         }
 
-        /* --- MAIN CONTENT SECTION (Booking + Stats + NE) --- */
+        /* --- MAIN CONTENT SECTION --- */
         #scroll-container { height: 800vh; }
         
         .main-content {
             position: relative; 
-            background: var(--dark); /* Pure Black Background */
+            background: var(--dark); 
             padding: 100px 5%; 
             z-index: 10; 
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            gap: 150px; /* Space between the blocks inside */
+            gap: 150px; 
         }
 
-        /* Product Card Styles (Unchanged) */
+        /* Product Card Styles */
         .product-card {
             background: #0f0f0f; border: 1px solid #222; padding: 50px;
             max-width: 550px; width: 100%; text-align: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
+        
+        /* New Product Banner Image Style */
+        .product-banner {
+            width: 100%;
+            max-width: 300px; /* Controls image size */
+            height: auto;
+            margin: 0 auto 30px auto;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(255, 51, 0, 0.2)); /* Fiery glow */
+            transition: transform 0.3s ease;
+        }
+        .product-banner:hover {
+            transform: scale(1.05);
+        }
+
         .product-title { font-family: 'Cinzel', serif; font-size: 2.5rem; color: #fff; margin-bottom: 10px; }
         .product-price { font-size: 1.8rem; color: var(--primary); margin-bottom: 30px; font-weight: 800; }
         
@@ -181,10 +196,9 @@
         }
         @keyframes glowPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
-        /* Marquee (No Ruling Lines, Red Theme) */
+        /* Marquee */
         .marquee-wrap {
             overflow: hidden; white-space: nowrap; margin: 0 0 60px;
-            /* Removed Borders */
             background: linear-gradient(90deg, transparent, rgba(255, 51, 0, 0.05), transparent);
             padding: 24px 0; position: relative; z-index: 2; width: 100vw;
         }
@@ -278,6 +292,8 @@
     <section class="main-content" id="booking">
         
         <div class="product-card">
+            <img src="images/banner.png" alt="BHUT Ghost Chilli Pickle" class="product-banner">
+            
             <h2 class="product-title">Ghost Chilli Gold</h2>
             <div class="product-price">₹499.00</div>
             <p style="color:#777; margin-bottom: 30px; line-height: 1.6;">The legendary Bhut Jolokia, fermented for 6 months with cold-pressed mustard oil. Extreme heat warning.</p>
@@ -327,8 +343,8 @@
         </div>
 
         <div style="width: 100%;">
-            <h2 class="section-title">The Soul of Northeast India</h2>
-            <p class="section-sub">Where BHUT was born — the land, the culture, the fire</p>
+            <h2 class="section-title" style="position:relative;z-index:2">The Soul of Northeast India</h2>
+            <p class="section-sub" style="position:relative;z-index:2">Where BHUT was born — the land, the culture, the fire</p>
             
             <div class="marquee-wrap">
                 <div class="marquee-inner">
