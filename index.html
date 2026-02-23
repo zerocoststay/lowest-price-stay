@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minstay | Stay Smarter</title>
-
-    <meta name="title" content="Minstay | India's Most Affordable Stay Provider">
-    <meta name="description" content="Expert support for a smooth, budget-friendly experience in North-East India. 100% verified properties, zero hidden fees, and 24/7 support.">
+    
+    <title>Minstay | Budget Hotels, Homestays & PG in North East India</title>
+    <meta name="title" content="Minstay | Budget Hotels, Homestays & PG in North East India">
+    <meta name="description" content="Find the best budget hotels, homestays, and long-term PG accommodations in North East India. 100% verified stays in Assam, Mizoram, and Guwahati with zero hidden fees.">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://minstay.in/">
-    <meta property="og:title" content="Minstay | India's Most Affordable Stay Provider">
-    <meta property="og:description" content="Expert support for a smooth, budget-friendly experience in North-East India. 100% verified properties, zero hidden fees, and 24/7 support.">
+    <meta property="og:title" content="Minstay | Budget Hotels, Homestays & PG in North East India">
+    <meta property="og:description" content="Find the best budget hotels, homestays, and long-term PG accommodations in North East India. 100% verified stays with zero hidden fees.">
     <meta property="og:image" content="https://drive.google.com/thumbnail?id=1PM4N6KmYqAD7ucwUkbBJaEEjjDRrfkC3&sz=w1200">
 
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://minstay.in/">
-    <meta property="twitter:title" content="Minstay | India's Most Affordable Stay Provider">
-    <meta property="twitter:description" content="Expert support for a smooth, budget-friendly experience in North-East India. 100% verified properties, zero hidden fees, and 24/7 support.">
+    <meta property="twitter:title" content="Minstay | Budget Hotels, Homestays & PG in North East India">
+    <meta property="twitter:description" content="Find the best budget hotels, homestays, and long-term PG accommodations in North East India. 100% verified stays with zero hidden fees.">
     <meta property="twitter:image" content="https://drive.google.com/thumbnail?id=1PM4N6KmYqAD7ucwUkbBJaEEjjDRrfkC3&sz=w1200">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#ffffff">
@@ -47,6 +47,20 @@
                 justify-content: flex-start;
                 padding-left: 20px;
             }
+        }
+
+        /* --- SEO INTRO TEXT STYLING --- */
+        .seo-intro-container {
+            padding: 20px 5% 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .seo-intro-container p {
+            font-size: 1.05rem;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
         }
 
         /* --- NEW PROMO POSTER SECTION STYLING --- */
@@ -298,6 +312,10 @@
         </div>
     </section>
 
+    <section class="seo-intro-container">
+        <p>Minstay is the leading platform for affordable accommodations in North East India. Whether you need a daily <strong>budget hotel in Assam</strong>, a beautiful <strong>homestay in Meghalaya</strong>, or a <strong>long-term PG in Guwahati</strong>, we connect you directly with 100% verified properties at the lowest prices. Skip the hidden fees and book your perfect stay today.</p>
+    </section>
+
     <section class="promo-poster-section">
         <div class="poster-box">
             <img src="https://drive.google.com/thumbnail?id=1W8taYIpj4bJKkL_dyv7Q5e5XtUBt_EvT&sz=w1000" alt="Special Offer 1">
@@ -499,18 +517,16 @@
 
         startAutoScroll();
 
-        // --- NEW SOUND LOGIC: UNMUTE ON FIRST INTERACTION ---
+        // --- SOUND LOGIC: UNMUTE ON FIRST INTERACTION ---
         document.addEventListener('click', function unmuteVideo() {
             const video = document.getElementById('heroVideo');
             if (video) {
-                video.muted = false; // Unmute
-                video.play().catch(() => {}); // Ensure it plays
+                video.muted = false; 
+                video.play().catch(() => {}); 
             }
-            // Remove listener so it only happens once
             document.removeEventListener('click', unmuteVideo);
         }, { once: true });
         
-        // Also listen for scroll/touch for mobile users
         document.addEventListener('touchstart', function unmuteVideoMobile() {
             const video = document.getElementById('heroVideo');
             if (video) {
