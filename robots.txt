@@ -1,17 +1,2 @@
 User-agent: *
-
-# Allow public pages
-Allow: /
-Allow: /index.html
-Allow: /assam.html
-Allow: /pg.html
-Allow: /mizoram.html
-Allow: /mizoram-pg.html
-
-# Block pages from search engines
-Disallow: /admin.html
-Disallow: /privacy.html
-Disallow: /terms.html
-
-# Sitemap
 Sitemap: https://minstay.in/sitemap.xml
